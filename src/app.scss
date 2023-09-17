@@ -1,10 +1,11 @@
 .app{
+   
+    background-color: beige;
     height: 100vh;
 
-    .sections{
+    .homepage{
         width: 100%;
         height: calc(100vh - 70px);
-        background-color: beige;
         position: relative;
         top: 70px;
         scroll-behavior: smooth;
@@ -13,26 +14,32 @@
         &::-webkit-scrollbar{
             display: none;
         }
-        > * {
-            width: 100vw;
-            height: calc(100vh - 70px); 
-            scroll-snap-align: start;
-        }
 
+        .introsection{
+            height: auto;
+        }
         .eventsection{
-
-            height: auto;
-
-        }
-
-        .historysection{
             height: auto;
         }
+        .contactsection{
+            height: auto;
+        }
+    }
 
-        .footersection{
+    .aboutus{
 
-            height: 60px;
+        width: 100%;
+        height: calc(100vh - 70px);
+        position: relative;
+        top: 70px;
+        scroll-behavior: smooth;
+        // scroll-snap-type: y mandatory;
+        scrollbar-width: none;  //for firefox
+        &::-webkit-scrollbar{
+            display: none;
         }
 
     }
+
+    
 }
