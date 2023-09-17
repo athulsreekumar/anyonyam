@@ -1,4 +1,4 @@
-import React, { useEffect } from "react" 
+import React from "react" 
 import "./intro.scss"
 
 export default function Intro() {
