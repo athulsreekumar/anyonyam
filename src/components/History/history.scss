@@ -1,0 +1,119 @@
+.history{
+    background-color: white;
+    
+    
+    .heading{
+        
+        display: flex;
+        align-items: center;
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-top: 5%;
+
+        p{
+            text-align: justify;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 500;
+            font-size: 32px;
+        }
+
+        
+
+    }
+
+    .textheading{
+        display: flex;
+        align-items: center;
+        margin-left: 10%;
+        margin-top: 5%;
+
+        .historytext{
+            p{
+                text-align: justify;
+                font-family: 'Prompt', sans-serif;
+                font-weight: 500;
+                font-size: 28px;
+                cursor: pointer;
+            }
+
+        }
+        .todaytext{
+            margin-left: 5%;
+            p{
+                text-align: justify;
+                font-family: 'Prompt', sans-serif;
+                font-weight: 300;
+                font-size: 28px;
+                cursor: pointer;
+            }
+
+        }
+
+    }
+
+    .historyContent{
+
+        align-items: center;
+        justify-content: center;
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-top: 3%;
+
+        p{
+            margin-bottom: 2%;
+            text-align: justify;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 300;
+            font-size: 22px;
+        }
+
+        .imageposition{
+
+            display: flex;
+            justify-content: center;
+
+            .textbox{
+                justify-content: left;
+                margin-right: 3%;
+            }
+            
+            .imageContainer1{
+                
+                width: 100%;
+                justify-content: right;
+                
+    
+                img{
+                    height: 240px;
+                    width: auto;
+                }
+    
+            }
+
+        }
+
+        .imageposition2{
+
+            display: flex;
+            justify-content: center;
+            .image2{
+                width: 100%;
+                justify-content: left;
+
+                img{
+                    height: 395px;
+                    width: auto;
+                }
+            }
+
+            .textbox{
+
+                margin-left: 3%;
+            }
+
+        }
+        
+
+        margin-bottom: 10%;
+    }
+}

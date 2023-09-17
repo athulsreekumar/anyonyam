@@ -1,0 +1,103 @@
+.today{
+
+    background-color: white;
+    
+
+    .heading{
+
+        display: flex;
+        align-items: center;
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-top: 5%;
+
+        p{
+            text-align: justify;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 500;
+            font-size: 32px;
+        }
+
+        
+
+    }
+
+    .textheading{
+        display: flex;
+        align-items: center;
+        margin-left: 10%;
+        margin-top: 5%;
+
+        .historytext{
+            p{
+                text-align: justify;
+                font-family: 'Prompt', sans-serif;
+                font-weight: 300;
+                font-size: 28px;
+                cursor: pointer;
+            }
+
+        }
+        .todaytext{
+            margin-left: 5%;
+            p{
+                text-align: justify;
+                font-family: 'Prompt', sans-serif;
+                font-weight: 500;
+                font-size: 28px;
+                cursor: pointer;
+            }
+
+        }
+
+    }
+
+    .todaycontent{
+
+        align-items: center;
+        justify-content: center;
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-top: 3%;
+
+        p{
+            margin-bottom: 2%;
+            text-align: justify;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 300;
+            font-size: 22px;
+        }
+
+        .imgContainer1{
+
+            width: 100%;
+            justify-content: center;
+            margin-left: 15%;
+            margin-bottom: 3%;
+            img{
+                width: 70%;
+            }
+        }
+
+        .imagePosition{
+
+            display: flex;
+            .textbox{
+                justify-content: left;
+                margin-right: 3%;
+            }
+            .imagebox{
+                justify-content: right;
+                width: 100%;
+                img{
+
+                    height: 350px;
+
+                }
+
+            }
+        }
+
+        margin-bottom: 10%;
+    }
+}

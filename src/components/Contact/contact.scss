@@ -1,0 +1,39 @@
+.contact{
+    background-color: rgb(201, 235, 200);
+
+    .content{
+        margin-top: 5%;
+        margin-left: 10%;
+        margin-bottom: 5%;
+        .left{
+            // display: flex;
+            align-items: center;
+            p{
+                
+                font-family: 'Prompt', sans-serif;
+                font-weight: 300;
+                font-size: 32px;
+            }
+
+            .address{
+
+                p{
+                    font-family: 'Prompt', sans-serif;
+                    font-weight: 400;
+                    font-size: 30px;
+                }
+
+            }
+
+            .contactdetails{
+                margin-top: 7%;
+                
+                h3{
+                    font-family: 'Prompt', sans-serif;
+                    font-weight: 400;
+                    font-size: 27px;
+                }
+            }
+        }
+    }
+}
