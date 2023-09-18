@@ -6,7 +6,7 @@ export default function Intro() {
   return (
     <div className='intro' id="intro">
         <div className="image" id="image">
-            <img src="assets/introDance.png" alt="" />
+            <img src="assets/intro2.jpg" alt="" />
         </div>
 
         <div className="text" id="text">

@@ -21,10 +21,18 @@
             
             
             align-items: center;
+            display: flex;
+
+            .icon{
+
+                img{
+                    height:40px
+                }
+            }
             .logo{
                 
                 img{
-                    padding-top: 5%;
+                    // padding-top: 5%;
                     height: 40px;
                     width: 160px;
                     
@@ -65,10 +73,6 @@
                 cursor: pointer;
             }
 
-        }
-        .right{
-
-            
         }
     }
 

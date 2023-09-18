@@ -19,15 +19,30 @@ export default function History(  { aboutState, setaboutState }  ) {
         <div className="historyContent" id="historyContent">
 
             <p>
-                Looking back at the past is inevitable. On June 28, 1998, during a meeting at Thiruvathira Nalukettu, Mr. Maduramattam proposed the name "Anyonyam'' for the Namboothiri community, making it official. Sri Vadakkedam M S Mash served as the President, and Mr. P C N Namboothiri Nedumparambu led the first Executive Committee, which had its temporary headquarters at Subramanian Namboothiri's Pathayapura.
+            Anyonyam is an organization formed in 1998 to develop and encourage friendship and cooperation between the Namboodiri families in Tripunithura. Later it also took to its fold the responsibility of preserving our rich Vedic and cultural heritage by practicing and sharing the knowledge.  It has resulted in a network of more than 400 families as of now, on this occasion of Silver Jubilee Year in 2023. 
+
             </p>
             <p>
-                On August 15, 1998, Anyonyam held its first public meeting at the ground. Puliannoor Diwakaran Namboothiripad and Alathur Narayanan Namboothiripad were the initial leaders of Anyonya
+            The First General Body Meeting of Anyonyam was conducted in Kalikotta Palace on 15th August 1998. The conduct of cultural activities, sports events, and Annual Day celebrations resulted in better cohesion among the Anyonyam families. 
+            After five years, Anyonyam has spread its activities in different fields to serve its members like – Health Care , Marriage Bureau, Scholarship and Endowments , Day Care Centre etc.
+            It also started publishing a regular monthly journal to update its members about the happenings in the organization.
+            </p>
+            <p>The other activities of Anyonyam are as follows:</p>
+            <p>
+                <ol style={{ listStyleType: 'decimal' }}>
+                    <li>&#8226; Conducting of seminars for members </li>
+                    <li>&#8226; Sports activities</li>
+                    <li>&#8226; Facilitating marriage proposals for members </li>
+                    <li>&#8226; Publishing of journal with the Anyonyam news, literary contributions from members </li>
+                    <li>&#8226; Spiritual Discourses, temple darshans </li>
+                    <li>&#8226; Conducting of Health checkups, blood donation campaigns</li>
+                    <li>&#8226; Helping aged members, providing medical/financial help in need</li>
+                </ol>
             </p>
             <div className="imageposition" id="imageposition">
                 <div className="textbox">
                     <p>
-                        Subsequently, bylaws were drafted, and the organisation was registered. The first successful family gathering emerged from the Thiruvathira festival in the month of Dhanu. This inspired the creation of the Thiruvathira Sangam, which excelled in various performances.
+                    The realization that it is our responsibility to establish a permanent setup to facilitate the “ Shodasa Kriyas “ ( Choroonu, Upanayanam, Samavarthanam, Sradham, Pindam etc.) for the benefit of members, ended up buying a separate building (Nalukettu ) for such purposes. It was inaugurated by Bhagavathahamsam Sri Malliyoor Sankaran Namboodiri on 13th of July 2005 by delivering a divine speech. The Nalukettu is still remaining as our pride, providing service to people all over Kerala and outside.
                     </p>
                 </div>
                 <div className="imageContainer1" id=".imageContainer1">
@@ -40,13 +55,13 @@ export default function History(  { aboutState, setaboutState }  ) {
             
             
             <p>
-                Over the years, Anyonyam organised Thiruvathira celebrations, arts, and sports competitions, fostering camaraderie among members. The organisation expanded its services, establishing a Health Care Committee, Marriage Bureau, Education Award Project, library, play school, mutual directory, and more.
+            We also conduct yearly residential Educational Seminars ( Padana Sibiram) for inculcating training to our new generation in the routine rituals to be followed. 
+            Such conduct of Sibiram is also being done for females in imparting knowledge in the rituals , poojas etc. 
+            Nalukettu is considered to be an abode providing members and others doing Shodasa Kriyas and also preserving and spreading the rich cultural heritage and Vedic knowledge. 
+
             </p>
             <p>
-                Members also secured a yoga space and office apartment. To facilitate posthumous cremations and burials, Tulu Brahmins worked tirelessly, with the support of the Brahmin congregation.
-
-
-                Under the leadership of Sri Janardhanan Empranthiri, President of Brahmana Yuga, members effectively reached out to one another, implemented the "Anyonyam Patrika" newsletter, and offered timely assistance.
+            We have separate Committees to take care of different activities of the organization- such as Nalukettu Samithi , Sathsanga Samithi, Vanitha Samithi, Yuvajana Samithi etc. 
             </p>
 
             <div className="imageposition2" id="imageposition2">
@@ -56,13 +71,14 @@ export default function History(  { aboutState, setaboutState }  ) {
                 </div>
                 <div className="textbox">
                     <p>
-                        The origins and purposes of the organisation were rooted in providing members with suitable spaces for religious rituals, given limited flat and building space. This led to the formation of four knots within the community, chaired by Shri Panickam Appu Namboothiri for three years.
+                    Anyonyam recognizes the Vedic scholars by providing awards on a regular basis. It also provides scholarships to the deserving children of members to encourage their educational achievements.
                     </p>
                     <p>
-                        Shri Malliyur Sankaran's inauguration and blessing speech marked a significant milestone in 2005, and his dedication to the organisation remains a source of pride. The organisation continued to flourish, hosting a Nitya Karma study camp for boys in 2010, promoting the study of Shodasa Charas and the transmission of Brahmin traditions.
+                    Anyonyam gives a high level of respect and importance to the aged members and felicitates them on different occasions.
+                    Going forward, Anyonyam aims to extend its activities by starting educational institutions, Auditoriums etc. to provide services to members and the general public. It is on its way to fulfilling its dreams.
                     </p>
                     <p>
-                        The Anyonyam community has grown into a reliable learning centre, supporting its members and celebrating its achievements.
+                    Saluting and remembering the people who were instrumental in founding this priceless institution, we hope to reach new heights.
                     </p>
                 </div>
 

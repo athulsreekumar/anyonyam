@@ -1,12 +1,15 @@
 .intro{
-    background-color: white;
+    background-color: rgb(201, 235, 200);
     .image{
-        margin-left: 2%;
+        margin-left: 15%;
         margin-right: 2%;
         margin-top: 2.3%;
         border-radius: 40px;
         border: 10px solid;
-        border-color: rgb(201, 235, 200);
+        border-color: black;
+        border-style: double;
+        height: 80vh;
+        width: 120vh;
     
         img{
             height: 100%;

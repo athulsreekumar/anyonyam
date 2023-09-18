@@ -6,6 +6,7 @@ import Event from "./components/Event/event"
 import Footer from "./components/Footer/footer"
 import History from "./components/History/history"
 import Today from "./components/Today/today"
+import Gallery from "./components/Gallery/gallery"
 import "./app.scss"
 
 
@@ -13,6 +14,7 @@ import "./app.scss"
 function App() {
   const [state, setState] = useState("Home");
   const [aboutState, setaboutState] = useState("history");
+  
   const sectionRef = useRef(null);
 
   const scrollToSection = () => {
@@ -42,6 +44,12 @@ function App() {
         <div className="aboutus" >
           {aboutState === "history" && <History aboutState={aboutState} setaboutState={setaboutState} />}
           {aboutState === "today" && <Today aboutState={aboutState} setaboutState={setaboutState} />}
+          <Footer />
+        </div>
+      )}
+      {state === "Gallery" && (
+        <div className="gallery" >
+          <Gallery/>
           <Footer />
         </div>
       )}

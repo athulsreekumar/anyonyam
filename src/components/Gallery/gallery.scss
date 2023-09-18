@@ -1,0 +1,62 @@
+.gallery{
+
+    background-color: rgb(201, 235, 200);
+
+    .heading{
+        margin-left: 20%;
+
+        p{
+            text-align: justify;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 500;
+            font-size: 32px;
+        }
+
+        .sections{
+            display: flex;
+
+            .left{
+                margin-top: 5%;
+                width: 20%;
+                height: 30%;
+                float: left;
+                p{
+                    margin-bottom: 5%;
+                    font-weight: 300;
+                    font-size: 24px;
+                    cursor: pointer;
+
+                    &.active{
+                        font-weight: 500;
+                    }
+                }
+
+            }
+
+            .right{
+                margin-left: 2%;
+                width: 80%;
+                float: right;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+
+
+                .imgContainer{
+                    
+                    margin: 10px 20px;
+                    
+                    img{
+                        width: 35%;
+                        margin: 2%;
+                        border: 7px solid white;
+                        
+                    }
+
+                }
+            }
+        }
+    }
+
+}

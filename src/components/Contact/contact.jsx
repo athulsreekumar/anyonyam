@@ -11,7 +11,9 @@ export default function Contact() {
                     <p>Anyonyam Nalukettu,</p>
                     <p>Near Balavinayaka Temple,</p> 
                     <p>Kannankulangara,</p>
-                    <p>Tripunithura 682301</p>
+                    <p>Tripunithura,</p>
+                    <p>Ernakulam District,</p>
+                    <p>Kerala - 682301</p>
                 </div>
                 <div className="contactdetails">
                     <p>Contact Us:</p>
