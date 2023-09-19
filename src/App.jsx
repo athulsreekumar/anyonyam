@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react"
-import Topbar from "./components/Topbar/topbar"
-import Intro from "./components/Intro/intro"
-import Contact from "./components/Contact/contact"
-import Event from "./components/Event/event"
-import Footer from "./components/Footer/footer"
-import History from "./components/History/history"
-import Today from "./components/Today/today"
-import Gallery from "./components/Gallery/gallery"
+import Topbar from "./components/Topbar/topbar.jsx"
+import Intro from "./components/Intro/intro.jsx"
+import Contact from "./components/Contact/contact.jsx"
+import Event from "./components/Event/event.jsx"
+import Footer from "./components/Footer/footer.jsx"
+import History from "./components/History/history.jsx"
+import Today from "./components/Today/today.jsx"
+import Gallery from "./components/Gallery/gallery.jsx"
 import "./app.scss"
 
 
@@ -50,7 +50,7 @@ function App() {
       {state === "Gallery" && (
         <div className="gallery" >
           <Gallery/>
-          <Footer />
+          
         </div>
       )}
 

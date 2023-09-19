@@ -1,12 +1,19 @@
 .event{
-    background-color: white;
+    background-color: #9c424d;
+    color: white;
 
     .introtext{
         align-items: center;
         justify-content: center;
-        margin-left: 10%;
-        margin-right: 10%;
         margin-top: 3%;
+        display: flex;
+
+        .vision{
+            margin: 2%;
+        }
+        .mission{
+            margin: 2%;
+        }
 
         p{
             text-align: justify;
@@ -26,7 +33,7 @@
 
     .picturearea{
 
-        background-color: rgb(201, 235, 200);
+        background-color: #9c424d;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -34,31 +41,8 @@
         border: 10px;
         .pic1{
             margin: 40px;
-            border-radius: 20px;
             border: 10px solid;
-            border-color: white;
-            img{
-                height: auto;
-                width: 350px;
-                display: block;
-            }
-        }
-        .pic2{
-            margin: 40px;
-            border-radius: 20px;
-            border: 10px solid;
-            border-color: white;
-            img{
-                height: auto;
-                width: 350px;
-                display: block;
-            }
-        }
-        .pic3{
-            margin: 40px;
-            border-radius: 20px;
-            border: 10px solid;
-            border-color: white;
+            border-color: #FFD0A5;
             img{
                 height: auto;
                 width: 350px;
@@ -69,6 +53,7 @@
 
     .upcomingevent{
 
+        
         margin-top: 5%;
         margin-left: 10%;
         margin-bottom: 7%;
@@ -83,7 +68,7 @@
         h2{
             margin-top: 10px;
             margin-bottom: 10px;
-            color: darkgreen;
+            color: #FFD0A5;
             text-align: justify;
             font-family: 'Prompt', sans-serif;
             font-weight: 500;

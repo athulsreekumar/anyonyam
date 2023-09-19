@@ -5,28 +5,33 @@ export default function Event() {
   return (
     <div className="event" id="event">
         <div className="introtext">
-            <p>
-                <h2>Vision</h2>
-            </p>
-            <p>
-            Develop and encourage friendship and cooperation among the members, preserve and maintain our rich Vedic culture, impart knowledge and training, and act as a change agent for the amendments that are necessitated by the passing of time.
-            </p>
-            <p>
-                <h2>Mission</h2>
-            </p>
-            <p>
-            Indulging in activities to hold the members together for a common cause, facilitating members to practice routine Vedic rituals, maintaining the highest ethical standards, and standing out in the public domain as a model organization in all the areas engaged in. 
-            </p>
+            <div className="vision">
+                <p>
+                    <h2>Vision</h2>
+                </p>
+                <p>
+                    Develop and encourage friendship and cooperation among the members, preserve and maintain our rich Vedic culture, impart knowledge and training, and act as a change agent for the amendments that are necessitated by the passing of time.
+                </p>  
+            </div>
+            <div className="mission">
+                <p>
+                    <h2>Mission</h2>
+                </p>
+                <p>
+                    Indulging in activities to hold the members together for a common cause, facilitating members to practice routine Vedic rituals, maintaining the highest ethical standards, and standing out in the public domain as a model organization in all the areas engaged in. 
+                </p>
+            </div>
+            
         </div>
         <div className="picturearea" id="picturearea">
             
             <div className="pic1" id="pic1">
                 <img src="assets/pic1.png" alt="" />
             </div>
-            <div className="pic2" id="pic2">
+            <div className="pic1" id="pic2">
                 <img src="assets/pic2.png" alt="" />
             </div>
-            <div className="pic3" id="pic3">
+            <div className="pic1" id="pic3">
                 <img src="assets/pic3.png" alt="" />
             </div>            
         </div>

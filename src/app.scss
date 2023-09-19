@@ -1,6 +1,6 @@
 .app{
    
-    background-color: beige;
+    background-color: #9c424d;
     height: 100vh;
 
     .homepage{
@@ -17,9 +17,16 @@
 
         .introsection{
             height: auto;
+            overflow: hidden;
+            scrollbar-width: none;  //for firefox
+            top: 70px;
+            &::-webkit-scrollbar{
+                display: none;
+            }
         }
         .eventsection{
             height: auto;
+            overflow: hidden;
         }
         .contactsection{
             height: auto;
@@ -44,14 +51,15 @@
     .gallery{
 
         width: 100%;
-        height: calc(100vh - 70px);
+        height: calc(100vh - 45px);
         position: relative;
-        top: 70px;
+        top: 40px;
         scroll-behavior: smooth;
         // scroll-snap-type: y mandatory;
         scrollbar-width: none;  //for firefox
         &::-webkit-scrollbar{
             display: none;
+
         }
 
     }

@@ -2,7 +2,8 @@
 
 
 .Topbar{
-    background-color: rgb(201, 235, 200);
+    background-color: #9c424d;
+    filter: drop-shadow(5px 5px 8px rgb(57, 57, 57));
     color: $mainColor;
     height: 75px;
     width: 100%;
@@ -35,6 +36,7 @@
                     // padding-top: 5%;
                     height: 40px;
                     width: 160px;
+                    filter: grayscale(1) invert(1);
                     
                 }
 
