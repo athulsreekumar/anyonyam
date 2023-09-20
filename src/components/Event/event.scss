@@ -47,6 +47,12 @@
                 height: auto;
                 width: 350px;
                 display: block;
+                transition: transform 0.3s;
+                    
+            }
+
+            img:hover{
+                transform: scale(1.05);
             }
         }
     }
