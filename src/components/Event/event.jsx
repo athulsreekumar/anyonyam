@@ -26,10 +26,10 @@ export default function Event() {
         <div className="picturearea" id="picturearea">
             
             <div className="pic1" id="pic1">
-                <img src="assets/pic1.png" alt="" />
+                <img src="assets/pic2.jpg" alt="" />
             </div>
             <div className="pic1" id="pic2">
-                <img src="assets/pic2.png" alt="" />
+                <img src="assets/pic1.jpg" alt="" />
             </div>
             <div className="pic1" id="pic3">
                 <img src="assets/pic3.png" alt="" />
