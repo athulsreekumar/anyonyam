@@ -21,9 +21,6 @@ export default function Contact() {
                     <h3>anyonyam2005@gmail.com</h3>
                 </div>
             </div>
-            <div className="right">
-
-            </div>
         </div>
     </div>
   )

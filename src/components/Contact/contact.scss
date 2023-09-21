@@ -35,6 +35,25 @@
                     font-size: 27px;
                 }
             }
+
+            @media (max-width: 768px) {
+                p{
+                    font-size: 18px;
+                }
+                .address{
+                    p{
+                        font-size: 20px;
+                    }
+                }
+                .contactdetails{
+                    p{
+                        font-size: 18px;
+                    }
+                    h3{
+                        font-size: 20px;
+                    }
+                }
+            }
         }
     }
 }

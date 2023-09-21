@@ -11,17 +11,31 @@
             height: 40px;
             width: 160px;
         }
+        @media (max-width: 768px) {
+            margin-top: 2%;
+            img{
+                height: 30px;
+                width: 120px;
+            }
+        }
 
     }
 
     .right{
-        flex: 0.5;
+        flex: 1;
         margin-top: 0.7%;
         margin-right: 5%;
 
         p{
             text-align: right;
             font-family: 'Prompt', sans-serif;
+        }
+        @media (max-width: 768px) {
+            flex: 0.9;
+            margin-top: 2.7%;
+            p{
+                font-size: 15px;
+            }
         }
     }
    

@@ -4,7 +4,7 @@
     color: white;
 
     .heading{
-        margin-top: 10%;
+        margin-top: 5%;
         margin-left: 10%;
         
         
@@ -20,6 +20,7 @@
 
     .sections{
 
+        margin-top: 2%;
         display: flex;
 
         .left{
@@ -28,10 +29,12 @@
             width: 20%;
             float: left;
             position: fixed;
+            display: flex;
+            flex-direction: column;
             p{
                 margin-bottom: 5%;
                 font-weight: 300;
-                font-size: 24px;
+                font-size: 25px;
                 cursor: pointer;
 
                 &.active{
@@ -51,25 +54,62 @@
             justify-content: center;
             flex-wrap: wrap;
 
+            .scroll{
 
-            .imgContainer{
+                overflow-y: auto;
+                max-height: 80%;
+
+                .imgContainer{
                 
-                margin: 10px 20px;
-                
-                img{
-                    width: 35%;
-                    margin: 2%;
-                    border: 7px solid white;
-                    transition: transform 0.3s;
+                    margin: 10px 20px;
                     
-                }
-
-                img:hover{
-                    transform: scale(1.05);
+                    img{
+                        width: 35%;
+                        margin: 2%;
+                        border: 7px solid white;
+                        transition: transform 0.3s;
+                        
+                    }
+    
+                    img:hover{
+                        transform: scale(1.05);
+                    }
+    
                 }
 
             }
+            
         }
+
+        // @media (max-width: 768px) {
+        //     flex-direction: column;
+
+        //     .left {
+        //         order: 1;
+        //         width: 100%;
+        //         position: fixed;
+        //         float: none;
+        //         margin-left: 7%;
+        //         padding: 10px; /* Add padding for better spacing */ 
+        //         flex-direction: row; 
+        //         z-index: 2;
+        //         p{
+        //             margin: 10px;
+        //             font-size: 3vw;
+        //         }              
+        //     }
+
+        //     .right {
+        //         top: 20%;
+        //         width: 100%;
+        //         position: relative;
+        //         float: none;
+        //         margin: 0;
+        //         z-index: 1;
+        //         overflow-y: scroll;
+
+        //     }
+        // }
 
     }
 

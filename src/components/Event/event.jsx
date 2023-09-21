@@ -40,7 +40,7 @@ export default function Event() {
             <p className="title" id="title">Upcoming Events:</p>
             <h2>25<sup>th</sup> ANYONYAM VARSHIKAM 2023</h2>
             <h3>23<sup>rd</sup> & 24<sup>th</sup> Sepetember 2023</h3>
-            <h3>Muthukulangara Temple Auditorium</h3>
+            <h3>Muthukulangara Temple Auditorium, Eroor, Tripunithura</h3>
         </div>
     </div>
   )

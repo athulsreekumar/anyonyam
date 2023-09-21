@@ -70,7 +70,7 @@
         }
 
         .imgContainer1{
-
+            display: none;
             width: 100%;
             justify-content: center;
             margin-left: 15%;
@@ -87,7 +87,7 @@
 
         .imagePosition{
 
-            display: flex;
+            display: none;
             .textbox{
                 justify-content: left;
                 margin-right: 3%;
@@ -109,5 +109,11 @@
         }
 
         margin-bottom: 10%;
+
+        @media (max-width: 768px) {
+            p{
+                font-size: 18px;
+            }
+        }
     }
 }

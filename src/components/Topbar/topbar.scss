@@ -1,83 +1,106 @@
 @import "../../global.scss";
 
+.Topbar {
+  background-color: #9c424d;
+  filter: drop-shadow(5px 5px 8px rgb(57, 57, 57));
+  color: $mainColor;
+  height: 75px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 3;
+  transition: all 0.7s ease;
 
-.Topbar{
-    background-color: #9c424d;
-    filter: drop-shadow(5px 5px 8px rgb(57, 57, 57));
-    color: $mainColor;
-    height: 75px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 3;
-    transition: all 0.7s ease;
-
-    .wrapper{
-        padding: 7px 30px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .left{
-            
-            
-            align-items: center;
-            display: flex;
-
-            .icon{
-
-                img{
-                    height:40px
-                }
-            }
-            .logo{
-                
-                img{
-                    // padding-top: 5%;
-                    height: 40px;
-                    width: 160px;
-                    filter: grayscale(1) invert(1);
-                    
-                }
-
-                text-decoration: none;
-                color: inherit;
-            }
-            .itemContainer{
-                display: flex;
-                align-items: center;
-                margin-left: 90px;
-
-                .Icon{
-                    font-size: 20px;
-                    margin-right: 5px;
-                }
-
-                span{
-                    font-size: 15px;
-                    font-weight: 400;
-                    margin-right: 35px;
-                    margin-left: 35px;
-                }
-            }
-        }
-        .center{
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            
-            span{
-                font-family: 'Prompt', sans-serif;
-                font-size: 18px;
-                font-weight: 500;
-                margin-left: 40px;
-                cursor: pointer;
-            }
-
-        }
+  &.menu-open {
+    .menu-toggle {
+      transform: translateX(-80%);
     }
 
-    
-}
+    .menu {
+      transform: translateX(0);
+    }
+  }
 
+  .wrapper {
+    padding: 7px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .left {
+      align-items: center;
+      display: flex;
+
+      .icon {
+        img {
+          height: 40px;
+        }
+      }
+      .logo {
+        img {
+          height: 40px;
+          width: 160px;
+          filter: grayscale(1) invert(1);
+        }
+
+        text-decoration: none;
+        color: inherit;
+      }
+      
+    }
+
+    .center {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      .menu-toggle {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+
+        .bar {
+          width: 30px;
+          height: 3px;
+          background-color: white;
+          margin: 3px 0;
+        }
+      }
+
+      .menu {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          font-family: "Prompt", sans-serif;
+          font-size: 18px;
+          font-weight: 500;
+          margin-left: 40px;
+          cursor: pointer;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: flex;
+        }
+
+        .menu {
+          display: none;
+          flex-direction: column;
+          position: fixed;
+          top: 0;
+          right: -100%;
+          background-color: #9c424d;
+          width: 80%;
+          height: 100vh;
+          z-index: 4;
+          transition: transform 0.3s ease;
+        }
+      }
+    }
+  }
+}

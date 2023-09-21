@@ -7,6 +7,7 @@ import Footer from "./components/Footer/footer.jsx"
 import History from "./components/History/history.jsx"
 import Today from "./components/Today/today.jsx"
 import Gallery from "./components/Gallery/gallery.jsx"
+import Menu from "./components/Menu/menu.jsx"
 import "./app.scss"
 
 
@@ -14,6 +15,7 @@ import "./app.scss"
 function App() {
   const [state, setState] = useState("Home");
   const [aboutState, setaboutState] = useState("history");
+  const [menuOpen, setMenuOpen] = useState(false)
   
   const sectionRef = useRef(null);
 
@@ -25,7 +27,8 @@ function App() {
 
   return (
     <div className="app">
-      <Topbar state={state} setState={setState} scrollToSection={scrollToSection} />
+      <Topbar state={state} setState={setState} scrollToSection={scrollToSection} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <Menu state={state} setState={setState} scrollToSection={scrollToSection} menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
       {state === "Home" && (
         <div className="homepage">
           <div className="introsection">
