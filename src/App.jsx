@@ -51,7 +51,7 @@ function App() {
         </div>
       )}
       {state === "Gallery" && (
-        <div className="gallery" >
+        <div className="galleryMain" >
           <Gallery/>
           
         </div>

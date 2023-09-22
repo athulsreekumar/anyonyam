@@ -1,7 +1,13 @@
-import React from "react"
+import React from "react";
 import "./event.scss"
 
+
+
 export default function Event() {
+
+    
+
+        
   return (
     <div className="event" id="event">
         <div className="introtext">
@@ -26,7 +32,7 @@ export default function Event() {
         <div className="picturearea" id="picturearea">
             
             <div className="pic1" id="pic1">
-                <img src="assets/pic2.jpg" alt="" />
+                <img src="assets/A021.jpg" alt="" />
             </div>
             <div className="pic1" id="pic2">
                 <img src="assets/pic1.jpg" alt="" />

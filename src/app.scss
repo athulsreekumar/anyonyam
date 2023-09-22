@@ -48,12 +48,12 @@
 
     }
 
-    .gallery{
+    .galleryMain{
 
         width: 100%;
-        height: calc(100vh - 45px);
+        height: calc(100vh - 70px);
         position: relative;
-        top: 40px;
+        top: 70px;
         scroll-behavior: smooth;
         // scroll-snap-type: y mandatory;
         scrollbar-width: none;  //for firefox
