@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import "./gallery.scss"
 
 export default function Gallery() {
-
     const [state, setState] = useState("Varshikam");
 
     const [imagesFootball, setImagesFootball] = useState([]);
@@ -50,7 +49,8 @@ export default function Gallery() {
                             <div className="imgContainer">
                                 {
                                     imagesVarshikam.map((image, index) => (
-                                        <img key={index} src={image} alt={`${index}`} />
+                                        <img key={index} src={image} alt={`${index}`}/>
+                                        
                                     ))
                                 }
                             </div>
