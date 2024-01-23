@@ -1,7 +1,8 @@
+import { Link, Route } from "react-router-dom"
 import React from "react"
 import "./history.scss"
 
-export default function History(  { aboutState, setaboutState }  ) {
+export default function History() {
   return (
     <div className="history" id="history">
        <div className="heading" id="heading">
@@ -9,10 +10,14 @@ export default function History(  { aboutState, setaboutState }  ) {
        </div>
        <div className="textheading" id="textheading">
             <div className="historytext" id="historytext">
-                <p onClick={()=>setaboutState(aboutState="history")}>History</p>
+                {/* <p onClick={()=>setaboutState(aboutState="history")}>History</p> */}
+                {/* <p>History</p> */}
+                <Link to="/About/History"> <p>History</p></Link>
             </div>
             <div className="todaytext" id="todaytext">
-                <p onClick={()=>setaboutState(aboutState="today")}>Anyonyam Today</p>
+                {/* <p onClick={()=>setaboutState(aboutState="today")}>Anyonyam Today</p> */}
+                <Link to="/About/Today"><p>Anyonyam Today</p></Link>
+
             </div>
         </div>
 

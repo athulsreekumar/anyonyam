@@ -8,11 +8,14 @@ import History from "./components/History/history.jsx"
 import Today from "./components/Today/today.jsx"
 import Gallery from "./components/Gallery/gallery.jsx"
 import Menu from "./components/Menu/menu.jsx"
+import Login from "./components/Login/login4.jsx"
+import Profile from "./profilecomponent/Profile/profile2.jsx"
+import { Routes, Route, Router } from "react-router-dom"
 import "./app.scss"
 
 
 
-function App() {
+function App({ onLogin , loggedInUser, setLoggedInUser}) {
   const [state, setState] = useState("Home");
   const [aboutState, setaboutState] = useState("history");
   const [menuOpen, setMenuOpen] = useState(false)
@@ -57,7 +60,19 @@ function App() {
         </div>
       )}
 
-
+      {state === "Login" && (
+        <div className="login" >
+         
+         {/* <Routes>
+            <Route path='/login' element={<Login />}></Route>
+         </Routes> */}
+         <Login onLogin={onLogin} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
+          
+        </div>
+      )}
+        {/* <Routes>
+            <Route path='/profile' element={<Profile />}></Route>
+        </Routes> */}
 
     </div>
   );

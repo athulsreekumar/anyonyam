@@ -1,0 +1,27 @@
+.app{
+   
+    // background-color: #bdc3c7;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url("../public/assets/patternBG01.jpg");
+    background-size: contain;
+    // backdrop-filter: 200px;
+    // background: rgba(0,0,0,0.5);
+    // opacity: 0.5;
+    // backg
+    // background:rgba(255,255,255,0.5); 
+    height: 100vh;
+
+    .components{
+        width: 100%;
+        height: calc(100vh - 70px);
+        position: relative;
+        top: 70px;
+        scroll-behavior: smooth;
+        // scroll-snap-type: y mandatory;
+        scrollbar-width: none;  //for firefox
+        &::-webkit-scrollbar{
+            display: none;
+        }
+      }
+
+}

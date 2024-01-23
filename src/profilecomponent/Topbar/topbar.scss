@@ -2,7 +2,7 @@
 
 .Topbar {
   background-color: #9c424d;
-  filter: drop-shadow(5px 5px 8px rgb(57, 57, 57));
+  // filter: drop-shadow(5px 5px 8px rgb(57, 57, 57));
   color: $mainColor;
   height: 75px;
   width: 100%;
@@ -73,16 +73,34 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        text-decoration: none;
 
-        span {
-          font-family: "Prompt", sans-serif;
-          font-size: 18px;
-          font-weight: 500;
-          margin-left: 40px;
-          cursor: pointer;
+        Link{
+
+          
+
+          span {
+            font-family: "Prompt", sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+            margin-left: 40px;
+            cursor: pointer;
+            // text-decoration: none;
+          }
         }
+
+        
       
       }
+
+      .menu-link{
+        span {
+          color: inherit; // Use the color of the parent element
+          text-decoration: none; // Remove underline
+        }
+      }
+
+      
 
       @media (max-width: 768px) {
         .menu-toggle {

@@ -1,10 +1,12 @@
 import React from "react";
 import "./topbar.scss";
+import {Route, Link, Routes} from 'react-router-dom';
+import { HashLink as Link1 } from "react-router-hash-link";
 
-export default function Topbar({ state, setState, scrollToSection, menuOpen, setMenuOpen }) {
+export default function Topbar({scrollToSection, menuOpen, setMenuOpen }) {
 
   const handleButtonClick = () => {
-    setState("Home");
+    scrollToSection();
     setTimeout(() => {
       scrollToSection();
     }, 100); 
@@ -20,13 +22,9 @@ export default function Topbar({ state, setState, scrollToSection, menuOpen, set
             <img src="assets/AnyonyamLogo.png" alt="" />
           </div>
           <div>
-            <a href="#intro" className="logo">
-              <img
-                src="assets/logo.png"
-                alt="img here"
-                onClick={() => setState("Home")}
-              />
-            </a>
+          <Link to="/" className="logo">
+              <img src="assets/logo.png" alt="img here" />
+            </Link>
           </div>
         </div>
         <div className="center">
@@ -39,10 +37,16 @@ export default function Topbar({ state, setState, scrollToSection, menuOpen, set
             <div className="bar"></div>
           </div>
           <div className={`menu ${menuOpen ? "open" : ""}`}>
-            <span onClick={() => setState("Home")}>Home</span>
+            <Link to="/" style={{ textDecoration: 'none', color: 'white' }}><span >Home</span></Link>
+            <Link to="/About/History" style={{ textDecoration: 'none', color: 'white' }}><span >About Us</span></Link>
+            <Link to="/Gallery" style={{ textDecoration: 'none', color: 'white' }}><span >Gallery</span></Link>
+            <Link1 smooth to="/#contact" style={{ textDecoration: 'none', color: 'white' }}><span>Contact Us</span></Link1>
+            <Link to="/login" style={{ textDecoration: 'none', color: 'white' }}><span >Login</span></Link>
+            {/* <span onClick={() => setState("Home")}>Home</span>
             <span onClick={() => setState("About")}>About Us</span>
             <span onClick={() => setState("Gallery")}>Gallery</span>
             <span onClick={handleButtonClick}>Contact Us</span>
+            <span onClick={() => setState("Login")}>Login</span> */}
           </div>
         </div>
       </div>
