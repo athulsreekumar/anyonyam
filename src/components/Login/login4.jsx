@@ -37,7 +37,7 @@ export default function Login({ onLogin, loggedInUser, setLoggedInUser }) {
 
         console.log(dataToSubmit)
 
-        fetch('https://anyonyam.onrender.com/login', {
+        fetch('/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
