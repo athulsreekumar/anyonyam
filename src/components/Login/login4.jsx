@@ -1,9 +1,9 @@
 import "./login.scss"
-import { Routes, Route, Link, useNavigate } from "react-router-dom"
-import React, { useState, useRef, useEffect } from "react"
-import axios from 'axios';
+import { useNavigate } from "react-router-dom"
+import React, { useState, useEffect } from "react"
+// import axios from 'axios';
 import OtpInput from 'react-otp-input';
-import Profile from "../../profilecomponent/Profile/profile2.jsx";
+// import Profile from "../../profilecomponent/Profile/profile2.jsx";
 import ReactLoading from "react-loading";
 
 
