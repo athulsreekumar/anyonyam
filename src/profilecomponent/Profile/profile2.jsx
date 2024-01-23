@@ -174,7 +174,8 @@ export default function Profile() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get(`https://anyonyam.onrender.com/profile?MemberNo=${memberNo}`,{
+                const res = await axios.get(`https://anyonyam.onrender.com/profile?MemberNo=${memberNo}`, {
+                    withCredentials: true
                 });
                 setUserSelected(false);
                 setProfile(res.data.data);
