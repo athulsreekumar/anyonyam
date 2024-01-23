@@ -64,6 +64,7 @@ export default function Profile() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                withCredentials: true,
             });
             console.log('API response:', response.data);
             toggleFormVisibility();
