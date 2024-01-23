@@ -42,7 +42,7 @@ export default function Login({ onLogin, loggedInUser, setLoggedInUser }) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            credentials: 'include',
+            credentials: 'same-origin',
             body: JSON.stringify(dataToSubmit),
         })
             // .then((res) => res.json())

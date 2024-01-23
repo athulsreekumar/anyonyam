@@ -175,7 +175,6 @@ export default function Profile() {
         const fetchProfile = async () => {
             try {
                 const res = await axios.get(`https://anyonyam.onrender.com/profile?MemberNo=${memberNo}`,{
-                    withCredentials: true,
                 });
                 setUserSelected(false);
                 setProfile(res.data.data);
