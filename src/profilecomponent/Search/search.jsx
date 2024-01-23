@@ -52,7 +52,9 @@ export default function Search() {
         const url = "https://anyonyam.onrender.com/search?name=" + name;
 
         try {
-            const res = await axios.get(url);
+            const res = await axios.get(url, {
+                withCredentials: true
+            });
             setSearch(res.data);
             // console.log(name)
             // setSearchData(false)
@@ -74,7 +76,7 @@ export default function Search() {
                 setLoading(false);
             }, 2000);
 
-            
+
 
             if (err.response.status === 404) {
                 setLoading(true)
@@ -87,11 +89,11 @@ export default function Search() {
                 // console.log(res.status)
             }
 
-            if(err.response.status === 500 || err.response.status ===521){
+            if (err.response.status === 500 || err.response.status === 521) {
                 window.alert("The server is facing some issues. Please Wait")
                 console.log(err);
             }
-            
+
 
         }
     };
@@ -101,6 +103,7 @@ export default function Search() {
             const response = await axios.post(`https://anyonyam.onrender.com/newmember`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
+                    withCredentials: true
                 },
             });
 
