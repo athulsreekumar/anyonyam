@@ -103,8 +103,9 @@ export default function Search() {
             const response = await axios.post(`https://anyonyam.onrender.com/newmember`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    withCredentials: true
+                    
                 },
+                withCredentials: true,
             });
 
             console.log('API response:', response.data);

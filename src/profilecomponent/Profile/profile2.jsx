@@ -92,8 +92,9 @@ export default function Profile() {
                 const response = await axios.delete(`https://anyonyam.onrender.com/member?UNIQUEID=${UNIQUEID}`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        withCredentials: true
+                        
                     },
+                    withCredentials: true,
                 });
                 console.log('API response:', response.data);
                 // toggleFormVisibility();
@@ -134,8 +135,8 @@ export default function Profile() {
             const response = await axios.post(`https://anyonyam.onrender.com/member`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    withCredentials: true
                 },
+                withCredentials: true,
             });
 
             console.log('API response:', response.data);
