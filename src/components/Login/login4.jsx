@@ -88,7 +88,7 @@ export default function Login({ onLogin, loggedInUser, setLoggedInUser }) {
         const dataToSubmit = { "otp": otp, "phone": phone }
 
 
-        fetch('/auth', {
+        fetch('https://anyonyam.onrender.com/auth', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

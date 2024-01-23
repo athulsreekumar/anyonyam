@@ -49,7 +49,7 @@ export default function Search() {
 
 
         }
-        const url = "/search?name=" + name;
+        const url = "https://anyonyam.onrender.com/search?name=" + name;
 
         try {
             const res = await axios.get(url);
@@ -98,7 +98,7 @@ export default function Search() {
 
     const onCreateNew = async () => {
         try {
-            const response = await axios.post(`/newmember`, formData, {
+            const response = await axios.post(`https://anyonyam.onrender.com/newmember`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

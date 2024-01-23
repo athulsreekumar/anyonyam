@@ -19,7 +19,6 @@ export default function Profile() {
     const [tempState, setTempState] = useState({});
     const [illam, setIllam] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [relation, setRelation] = useState('')
 
 
 
@@ -61,7 +60,7 @@ export default function Profile() {
 
     const onSaveChanges = async () => {
         try {
-            const response = await axios.put('/member', tempState, {
+            const response = await axios.put('https://anyonyam.onrender.com/member', tempState, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -88,7 +87,7 @@ export default function Profile() {
 
         if (answer) {
             try {
-                const response = await axios.delete(`/member?UNIQUEID=${UNIQUEID}`, {
+                const response = await axios.delete(`https://anyonyam.onrender.com/member?UNIQUEID=${UNIQUEID}`, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -129,7 +128,7 @@ export default function Profile() {
 
             console.log(formData)
 
-            const response = await axios.post(`/member`, formData, {
+            const response = await axios.post(`https://anyonyam.onrender.com/member`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -174,7 +173,7 @@ export default function Profile() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get(`/profile?MemberNo=${memberNo}`);
+                const res = await axios.get(`https://anyonyam.onrender.com/profile?MemberNo=${memberNo}`);
                 setUserSelected(false);
                 setProfile(res.data.data);
                 setIsAdmin(res.data.isAdmin);
