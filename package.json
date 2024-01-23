@@ -27,7 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://anyonyam.onrender.com/",
+  "proxy": "netlify.toml",
   "eslintConfig": {
     "extends": [
       "react-app",
