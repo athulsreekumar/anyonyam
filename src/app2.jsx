@@ -8,7 +8,7 @@ import Footer from "./components/Footer/footer.jsx";
 import History from "./components/History/history.jsx";
 import Today from "./components/Today/today.jsx";
 import Gallery from "./components/Gallery/gallery.jsx";
-import Menu from "./components/Menu/menu.jsx";
+// import Menu from "./components/Menu/menu.jsx";
 import Login from "./components/Login/login4.jsx";
 import TopbarProf from "./profilecomponent/Topbar/topbar.jsx";
 import Profile from "./profilecomponent/Profile/profile2.jsx";

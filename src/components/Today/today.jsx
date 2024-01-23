@@ -11,11 +11,11 @@ export default function Today() {
         <div className="textheading" id="textheading">
             <div className="historytext" id="historytext">
                 {/* <p onClick={()=>setaboutState(aboutState="history")}>History</p> */}
-                <Link to="/About/History"> <p>History</p></Link>
+                <Link to="/About/History" style={{ textDecoration: 'none', color: 'white' }}> <p>History</p></Link>
             </div>
             <div className="todaytext" id="todaytext">
                 {/* <p onClick={()=>setaboutState(aboutState="today")}>Anyonyam Today</p> */}
-                <Link to="/About/Today"><p>Anyonyam Today</p></Link>
+                <Link to="/About/Today" style={{ textDecoration: 'none', color: 'white' }}><p>Anyonyam Today</p></Link>
             </div>
         </div>
 

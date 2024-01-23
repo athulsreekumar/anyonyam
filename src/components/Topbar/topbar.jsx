@@ -1,16 +1,9 @@
 import React from "react";
 import "./topbar.scss";
-import {Route, Link, Routes} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { HashLink as Link1 } from "react-router-hash-link";
 
 export default function Topbar({scrollToSection, menuOpen, setMenuOpen }) {
-
-  const handleButtonClick = () => {
-    scrollToSection();
-    setTimeout(() => {
-      scrollToSection();
-    }, 100); 
-  };
 
 
 

@@ -1,6 +1,6 @@
 import React from "react";
 import "./topbar.scss";
-import {Route, Link, Routes, useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 
 export default function TopbarProf({ state, setState, menuOpen, setMenuOpen, loggedInUser}) {
@@ -10,9 +10,6 @@ export default function TopbarProf({ state, setState, menuOpen, setMenuOpen, log
   // console.log("Coming from Topbar")
   // console.log(memberNo)
 
-  const handleImageClick = () => {
-      
-  }
 
   return (
     <div className={`Topbar ${menuOpen ? "menu-open" : ""}`}>
