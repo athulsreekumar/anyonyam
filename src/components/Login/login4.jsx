@@ -12,6 +12,8 @@ export default function Login({ onLogin, loggedInUser, setLoggedInUser }) {
 
     // const baseUrl = "https://anyonyam.onrender.com"
 
+    const baseURL = process.env.REACT_APP_BASE_URL
+
     const [loading, setLoading] = useState(true)
     const [phone, setPhone] = useState("");
     const [otp, setOtp] = useState("");
@@ -37,7 +39,7 @@ export default function Login({ onLogin, loggedInUser, setLoggedInUser }) {
 
         console.log(dataToSubmit)
 
-        fetch('https://anyonyam.onrender.com/login', {
+        fetch(`${baseURL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -89,7 +91,7 @@ export default function Login({ onLogin, loggedInUser, setLoggedInUser }) {
         const dataToSubmit = { "otp": otp, "phone": phone }
 
 
-        fetch('https://anyonyam.onrender.com/auth', {
+        fetch(`${baseURL}/auth`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

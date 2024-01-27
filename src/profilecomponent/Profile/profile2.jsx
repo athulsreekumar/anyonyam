@@ -20,6 +20,9 @@ export default function Profile() {
     const [illam, setIllam] = useState(null)
     const [loading, setLoading] = useState(true)
 
+    const baseURL = process.env.REACT_APP_BASE_URL
+
+
 
 
     const [formData, setFormData] = useState({
@@ -60,7 +63,7 @@ export default function Profile() {
 
     const onSaveChanges = async () => {
         try {
-            const response = await axios.put('https://anyonyam.onrender.com/member', tempState, {
+            const response = await axios.put(`${baseURL}/member`, tempState, {
                 headers: {
                     'Content-Type': 'application/json',
                     withCredentials: true
@@ -89,10 +92,10 @@ export default function Profile() {
 
         if (answer) {
             try {
-                const response = await axios.delete(`https://anyonyam.onrender.com/member?UNIQUEID=${UNIQUEID}`, {
+                const response = await axios.delete(`${baseURL}/member?UNIQUEID=${UNIQUEID}`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        
+
                     },
                     withCredentials: true,
                 });
@@ -132,7 +135,7 @@ export default function Profile() {
 
             console.log(formData)
 
-            const response = await axios.post(`https://anyonyam.onrender.com/member`, formData, {
+            const response = await axios.post(`${baseURL}/member`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -176,9 +179,14 @@ export default function Profile() {
     // const memberNo = 103
 
     useEffect(() => {
+        localStorage.setItem("isAdmin", isAdmin);
+        console.log("Inside useEffect:", isAdmin);
+    }, [isAdmin]);
+
+    useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get(`https://anyonyam.onrender.com/profile?MemberNo=${memberNo}`, {
+                const res = await axios.get(`${baseURL}/profile?MemberNo=${memberNo}`, {
                     withCredentials: true
                 });
                 setUserSelected(false);
@@ -187,6 +195,8 @@ export default function Profile() {
                 const { Illam } = res.data.data[0];
                 setIllam(Illam);
                 setUserMemberNo(localStorage.getItem("memberNo"));
+                // setIsAdmin(console.log(res.data.isAdmin));
+                // console.log(isAdmin)
                 // setIsLoading(false);
 
             } catch (err) {
@@ -195,6 +205,7 @@ export default function Profile() {
 
             }
         };
+        // console.log(isAdmin)
         console.log(illam)
         fetchProfile();
     }, [memberNo]);
@@ -235,7 +246,7 @@ export default function Profile() {
                         ))}
                     </ul>
 
-                    {isAdmin || userMemberNo === memberNo && (
+                    {(isAdmin || (userMemberNo === memberNo)) && (
                         <button onClick={() => toggleCreateFormVisibility(memberNo)}>CREATE USER</button>
                     )}
                 </div>
@@ -273,6 +284,10 @@ export default function Profile() {
                                             <td>{selectedProfiles.Illam}</td>
                                         </tr>
                                         <tr>
+                                            <th>ADDRESS</th>
+                                            <td>{selectedProfiles.Address}</td>
+                                        </tr>
+                                        <tr>
                                             <th>PHONE</th>
                                             <td>{selectedProfiles.Mobile}</td>
                                         </tr>
@@ -284,11 +299,39 @@ export default function Profile() {
                                             <th>RELATIONSHIP WITH MEMBER</th>
                                             <td>{selectedProfiles.RELATIONSHIP}</td>
                                         </tr>
+                                        <tr>
+                                            <th>EDUCATION</th>
+                                            <td>{selectedProfiles.EDUCATION}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>PROFESSION</th>
+                                            <td>{selectedProfiles.PROFESSION}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>AMMATH</th>
+                                            <td>{selectedProfiles.AMMATH}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>GRAMAM</th>
+                                            <td>{selectedProfiles.GRAMAM}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>VEDAM</th>
+                                            <td>{selectedProfiles.VEDAM}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>GOTHRAM</th>
+                                            <td>{selectedProfiles.GOTHRAM}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>BLOOD GROUP</th>
+                                            <td>{selectedProfiles.BloodGroup}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        {isAdmin || userMemberNo === memberNo && (<div className="buttonDiv">
+                        {(isAdmin || (userMemberNo === memberNo)) && (<div className="buttonDiv">
                             <button onClick={() => toggleFormVisibility(selectedProfiles.UNIQUEID)}>EDIT</button>
                             <button onClick={() => onDelete(selectedProfiles.UNIQUEID)} className="deleteButton">DELETE</button>
                             {selectedProfiles.RELATIONSHIP === "Member" && (
@@ -349,6 +392,38 @@ export default function Profile() {
                                                     <td><label>Relationship With Member</label></td>
                                                     <td><input type="text" value={tempState.RELATIONSHIP} /></td>
                                                 </tr>
+                                                <tr>
+                                                    <td><label>Address</label></td>
+                                                    <td><input type="text" value={tempState.Address} onChange={(e) => setTempState({ ...tempState, Address: e.target.value })} /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>EDUCATION</label></td>
+                                                    <td><input type="text" value={tempState.EDUCATION} onChange={(e) => setTempState({ ...tempState, EDUCATION: e.target.value })} /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>PROFESSION</label></td>
+                                                    <td><input type="text" value={tempState.PROFESSION} onChange={(e) => setTempState({ ...tempState, PROFESSION: e.target.value })} /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>AMMATH</label></td>
+                                                    <td><input type="text" value={tempState.AMMATH} onChange={(e) => setTempState({ ...tempState, AMMATH: e.target.value })} /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>GRAMAM</label></td>
+                                                    <td><input type="text" value={tempState.GRAMAM} onChange={(e) => setTempState({ ...tempState, GRAMAM: e.target.value })}  /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>VEDAM</label></td>
+                                                    <td><input type="text" value={tempState.VEDAM} onChange={(e) => setTempState({ ...tempState, VEDAM: e.target.value })} /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>GOTHRAM</label></td>
+                                                    <td><input type="text" value={tempState.GOTHRAM} onChange={(e) => setTempState({ ...tempState, GOTHRAM: e.target.value })} /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label>BLOOD GROUP</label></td>
+                                                    <td><input type="text" value={tempState.BloodGroup} onChange={(e) => setTempState({ ...tempState, BloodGroup: e.target.value })} /></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <div className="buttonclass">
@@ -357,6 +432,10 @@ export default function Profile() {
                                     </form>
                                 </div>
                             </div>
+                            // <div className="popupContainer">
+                            //     <div className="popupBackground" onClick={toggleFormVisibility}></div>
+                                
+                            // </div>
                         )}
 
 

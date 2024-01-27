@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 // import Profile from "../Profile/profile2.jsx";
 // import { FALSE } from "node-sass";
 import ReactLoading from "react-loading";
+import Cookies from 'js-cookie';
 
 
 export default function Search() {
@@ -18,6 +19,10 @@ export default function Search() {
     const [searchResults, setSearchResults] = useState(false);
     const [isCreateFormVisible, setCreateFormVisible] = useState(false);
     const [loading, setLoading] = useState(true)
+    // const [isAdmin, setIsAdmin] = useState(false);
+
+    const baseURL = process.env.REACT_APP_BASE_URL
+
 
 
     const [formData, setFormData] = useState({
@@ -49,7 +54,7 @@ export default function Search() {
 
 
         }
-        const url = "https://anyonyam.onrender.com/search?name=" + name;
+        const url = `${baseURL}/search?name=` + name;
 
         try {
             const res = await axios.get(url, {
@@ -100,7 +105,7 @@ export default function Search() {
 
     const onCreateNew = async () => {
         try {
-            const response = await axios.post(`https://anyonyam.onrender.com/newmember`, formData, {
+            const response = await axios.post(`${baseURL}/newmember`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
                     
@@ -143,6 +148,8 @@ export default function Search() {
         setTimeout(() => setLoading(false), 2000)
     }, [])
 
+    
+
     return (
         <div className="search">
             <div className="wrapper">
@@ -159,7 +166,9 @@ export default function Search() {
                     </form>
                 </div>
                 <div className="addmembersbutton">
-                    <button class="button-27" role="button" onClick={toggleCreateFormVisibility}>ADD MEMBER</button>
+                    {(localStorage.getItem('isAdmin') == 'true') && (
+                        <button class="button-27" role="button" onClick={toggleCreateFormVisibility}>ADD MEMBER</button>
+                    )}                    
                 </div>
             </div>
             {searchResults && searchData && (
