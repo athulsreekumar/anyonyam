@@ -43,6 +43,7 @@ function App() {
         setLoggedInUser(null);
         localStorage.removeItem("loggedIn");
         localStorage.removeItem("memberNo");
+        localStorage.removeItem("isAdmin");
         nav("/");
     };
 
