@@ -17,7 +17,6 @@ export default function Search() {
     const [selectedMemberNo, setSelectedMemberNo] = useState(null);
     const [searchData, setSearchData] = useState(false);
     const [searchResults, setSearchResults] = useState(false);
-    const [isCreateFormVisible, setCreateFormVisible] = useState(false);
     const [loading, setLoading] = useState(true)
     // const [isAdmin, setIsAdmin] = useState(false);
 
@@ -35,10 +34,7 @@ export default function Search() {
         Subscription: ''
     });
 
-    const toggleCreateFormVisibility = () => {
-        setCreateFormVisible(!isCreateFormVisible);
-        // setTempState(selectedProfiles);
-    };
+    
 
 
     const nav = useNavigate();
@@ -103,29 +99,6 @@ export default function Search() {
         }
     };
 
-    const onCreateNew = async () => {
-        try {
-            const response = await axios.post(`${baseURL}/newmember`, formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    
-                },
-                withCredentials: true,
-            });
-
-            console.log('API response:', response.data);
-            toggleCreateFormVisibility();
-
-            if (response.status === 200) {
-                window.alert('Profile Created!');
-                window.location.reload();
-            } else {
-                window.alert('Failed to Create profile.');
-            }
-        } catch (error) {
-            console.error('API error:', error);
-        }
-    };
 
     const handleUserDetailsClick = (memberNo) => {
         // Set the selectedMemberNo state to trigger the rendering of the Profile component
@@ -135,14 +108,6 @@ export default function Search() {
 
     };
 
-    const handleCreateInputChange = (e) => {
-        const { name, value } = e.target;
-        console.log({ name, value })
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
 
     useEffect(() => {
         setTimeout(() => setLoading(false), 2000)
@@ -165,11 +130,7 @@ export default function Search() {
                         {/* <input type="submit" className="button-27" /> */}
                     </form>
                 </div>
-                <div className="addmembersbutton">
-                    {(localStorage.getItem('isAdmin') == 'true') && (
-                        <button class="button-27" role="button" onClick={toggleCreateFormVisibility}>ADD MEMBER</button>
-                    )}                    
-                </div>
+               
             </div>
             {searchResults && searchData && (
                 <div className="searchResults">
@@ -216,54 +177,6 @@ export default function Search() {
                     </div>
                 </div>
 
-            )}
-            {isCreateFormVisible && (
-                <div className="popupContainer">
-                    <div className="popupBackground" onClick={toggleCreateFormVisibility}></div>
-                    <div className="popupForm">
-                        <h2>Add New Member</h2>
-                        <form onSubmit={async (e) => {
-                            e.preventDefault();
-                            await onCreateNew();
-                        }}>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td><label>Name</label></td>
-                                        <td><input type="text" name="Name" value={formData.Name} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Illam</label></td>
-                                        <td><input type="text" name="Illam" value={formData.Illam} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Phone</label></td>
-                                        <td><input type="text" name="Mobile" value={formData.Mobile} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Area</label></td>
-                                        <td><input type="text" name="Area" value={formData.Area} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Date of Birth</label></td>
-                                        <td><input type="date" name="DOB" value={formData.DOB} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Relationship with Member</label></td>
-                                        <td><input type="text" name="Relationship" value="MEMBER" readOnly /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Pending Payment</label></td>
-                                        <td><input type="text" name="Subscription" value={formData.Subscription} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div className="buttonclass">
-                                <button type="submit">ADD MEMBER</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
             )}
         </div>
     );

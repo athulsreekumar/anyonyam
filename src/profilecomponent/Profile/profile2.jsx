@@ -9,7 +9,7 @@ export default function Profile() {
 
     const { memberNo } = useParams();
     const [profile, setProfile] = useState([]);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(null);
     const [userMemberNo, setUserMemberNo] = useState(null);
     const [isFormVisible, setFormVisibility] = useState(false);
     const [isCreateFormVisible, setCreateFormVisible] = useState(false);
@@ -178,6 +178,8 @@ export default function Profile() {
 
     // const memberNo = 103
 
+    
+
     useEffect(() => {
         localStorage.setItem("isAdmin", isAdmin);
         console.log("Inside useEffect:", isAdmin);
@@ -219,7 +221,7 @@ export default function Profile() {
     }, [tempState]);
 
     useEffect(() => {
-        setTimeout(() => setLoading(false), 1000)
+        setTimeout(() => setLoading(false), 2000)
     }, [])
 
 
