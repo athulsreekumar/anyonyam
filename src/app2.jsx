@@ -14,6 +14,7 @@ import TopbarProf from "./profilecomponent/Topbar/topbar.jsx";
 import Profile from "./profilecomponent/Profile/profile2.jsx";
 import Search from "./profilecomponent/Search/search.jsx";
 import Logout from "./profilecomponent/Logout/logout.jsx";
+import Admin from "./profilecomponent/admin/admin.jsx";
 
 import "./app2.scss";
 
@@ -79,6 +80,7 @@ function App() {
 
                     {/* </>)} */}
 
+                    <Route path={`/Admin`} element={<Admin loggedInUser={loggedInUser}/>} />
                     <Route path={`/Profile/:memberNo`} element={<Profile />} />
                     <Route path="/Search" element={<Search />} />
                     <Route path="/Logout" element={<Logout onLogout={handleLogout} />} />

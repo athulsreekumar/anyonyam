@@ -39,6 +39,9 @@ export default function TopbarProf({ state, setState, menuOpen, setMenuOpen, log
             <div className="bar"></div>
           </div>
           <div className={`menu ${menuOpen ? "open" : ""}`}>
+            {localStorage.getItem("isAdmin") == "true" && (
+              <Link to="/Admin" style={{ textDecoration: 'none', color: 'white' }}><span>Admin</span></Link>
+            )}
             <Link to={`/Profile/${memberNo}`} style={{ textDecoration: 'none', color: 'white' }}><span>Profile</span></Link>
             <Link to="/Search" style={{ textDecoration: 'none', color: 'white' }}><span>Search</span></Link>
             <Link to="/Logout" style={{ textDecoration: 'none', color: 'white' }}><span>Logout</span></Link>
