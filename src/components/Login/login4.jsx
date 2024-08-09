@@ -115,13 +115,11 @@ const Login = ({ onLogin, loggedInUser, setLoggedInUser }) => {
                 console.log(data);
 
                 if (data.success) {
-                    // Redirect to the "/Profile" page
+                    localStorage.setItem("user-auth-token", data.token); // Store token in localStorage
                     setLoggedInUser(data);
                     onLogin();
-                    setOtpError(false)
-                    setLoading(false)
-
-
+                    setOtpError(false);
+                    setLoading(false);
                 }
 
                 if (data.status !== 200) {
