@@ -86,6 +86,7 @@ export default function Admin(loggedInUser) {
 
     // const baseURL = process.env.REACT_APP_BASE_URL
     const baseURL = "https://anyonyam.onrender.com"
+    // const baseURL = "http://localhost:8800"
 
 
     useEffect(() => {
