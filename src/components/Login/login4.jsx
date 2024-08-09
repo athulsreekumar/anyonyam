@@ -9,7 +9,8 @@ import './login.scss'
 
 const Login = ({ onLogin, loggedInUser, setLoggedInUser }) => {
 
-    const baseURL = process.env.REACT_APP_BASE_URL
+    // const baseURL = process.env.REACT_APP_BASE_URL
+    const baseURL = "https://anyonyam.onrender.com"
 
     const [loading, setLoading] = useState(true)
     const [phone, setPhone] = useState("");
