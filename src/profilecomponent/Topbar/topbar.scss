@@ -1,125 +1,176 @@
-@import "../../global.scss";
-
-.Topbar {
+.active {
   background-color: #9c424d;
-  // filter: drop-shadow(5px 5px 8px rgb(57, 57, 57));
-  color: $mainColor;
+}
+
+.bar {
+  width: 30px;
+  height: 4px;
+  background-color: white;
+  margin: 2px 0;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #9c424d;
+  filter: drop-shadow(5px 5px 8px rgb(57, 57, 57));
+  color: white;
+  position: fixed;
   height: 75px;
   width: 100%;
-  position: fixed;
   top: 0;
   z-index: 3;
   transition: all 0.7s ease;
+  // overflow: hidden;
+}
 
-  &.menu-open {
-    .menu-toggle {
-      transform: translateX(-80%);
-    }
+nav .title {
+  font-size: 1.5rem;
+  margin: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  align-items: center;
+  display: flex;
+}
 
-    .menu {
-      transform: translateX(0);
+nav .title .icon {
+  img {
+    height: 40px;
+  }
+}
+
+nav .title .logo {
+  img {
+    height: 40px;
+    width: 160px;
+    filter: grayscale(1) invert(1);
+  }
+
+  text-decoration: none;
+  color: inherit;
+}
+
+nav ul {
+  display: flex;
+  padding: 0; /* Remove default padding */
+  margin: 0;  /* Remove default margin */
+}
+
+nav ul.open {
+  padding: 0; /* Ensure no padding in open state */
+  margin: 0;  /* Ensure no margin in open state */
+}
+
+nav ul li {
+  list-style: none;
+}
+
+nav ul li a {
+  display: block;
+  text-decoration: none;
+  color: #9c424d;
+  padding: 0.5rem;
+  margin: 0 0.5rem;
+  border-radius: 0.5rem;
+}
+
+nav ul li a:not(.active):hover {
+  background-color: #9c424d;
+}
+
+nav .menu {
+  display: none;
+  position: absolute;
+  top: 0.75rem;
+  right: 0.5rem;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 2.25rem;
+  height: 2rem;
+}
+
+nav .menu span {
+  height: 0.4rem;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 0.2rem;
+}
+
+@media (max-width: 708px) {
+  nav .menu {
+    display: flex;
+    background-color: #9c424d;
+  }
+
+  nav .title .icon {
+    img {
+      height: 20px;
     }
   }
 
-  .wrapper {
-    padding: 7px 30px;
+  nav .title .logo {
+    img {
+      height: 20px;
+      width: 80px;
+      filter: grayscale(1) invert(1);
+    }
+
+    text-decoration: none;
+    color: inherit;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 0.25rem; 
+     /* added now*/
+    position: absolute;
+    top: 75px;
+    z-index: 2;
+  }
+
+  nav ul.open {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    right: 0;
+    padding: 0; /* Ensure no padding in open state */
+    margin: 0;  /* Ensure no margin in open state */
+    background-color: #9c424d;
+    transition: 2s ease;
+  }
 
-    .left {
-      align-items: center;
-      display: flex;
+  nav ul li {
+    width: 100%;
+    text-align: center;
+  }
 
-      .icon {
-        img {
-          height: 40px;
-        }
-      }
-      .logo {
-        img {
-          height: 40px;
-          width: 160px;
-          filter: grayscale(1) invert(1);
-        }
+  nav ul li a {
+    margin: 0.2rem 0.5rem;
+  }
 
-        text-decoration: none;
-        color: inherit;
-      }
-      
-    }
-
-    .center {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-
-      .menu-toggle {
-        display: none;
-        flex-direction: column;
-        cursor: pointer;
-
-        .bar {
-          width: 30px;
-          height: 3px;
-          background-color: white;
-          margin: 3px 0;
-        }
-      }
-
-      .menu {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-
-        Link{
-
-          
-
-          span {
-            font-family: "Prompt", sans-serif;
-            font-size: 18px;
-            font-weight: 500;
-            margin-left: 40px;
-            cursor: pointer;
-            // text-decoration: none;
-          }
-        }
-
-        
-      
-      }
-
-      .menu-link{
-        span {
-          color: inherit; // Use the color of the parent element
-          text-decoration: none; // Remove underline
-        }
-      }
-
-      
-
-      @media (max-width: 768px) {
-        .menu-toggle {
-          display: flex;
-        }
-
-        .menu {
-          display: none;
-          flex-direction: column;
-          position: fixed;
-          top: 0;
-          right: -100%;
-          background-color: #9c424d;
-          width: 80%;
-          height: 100vh;
-          z-index: 4;
-          transition: transform 0.3s ease;
-        }
-      }
-    }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 2; /* Ensure it covers other content but is below the menu */
+  }
+  
+  .overlay.open {
+    opacity: 1;
+    visibility: visible;
   }
 }

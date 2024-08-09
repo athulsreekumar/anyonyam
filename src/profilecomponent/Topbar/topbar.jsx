@@ -2,52 +2,61 @@ import React from "react";
 import "./topbar.scss";
 import {Link, useNavigate} from 'react-router-dom';
 
-
-export default function TopbarProf({ state, setState, menuOpen, setMenuOpen, loggedInUser}) {
-
+export default function TopbarProf({ state, setState, menuOpen, setMenuOpen, loggedInUser }) {
   const memberNo = localStorage.getItem("memberNo")
   const nav = useNavigate()
   // console.log("Coming from Topbar")
   // console.log(memberNo)
 
-
   return (
-    <div className={`Topbar ${menuOpen ? "menu-open" : ""}`}>
-      <div className="wrapper">
-        <div className="left">
-          <div className="icon">
-            <img src="/assets/AnyonyamLogo.png" alt="" />
-          </div>
-          <div>
-            <a className="logo">
-              <img
-                src="/assets/logo.png"
-                alt="img here"
-                onClick= {()=>nav(`/Profile/${memberNo}`)}
-                style={{ cursor: 'pointer'}}
-              />
-            </a>
-          </div>
+    <>
+    <nav>
+      <div className="title">
+        <div className="icon">
+          <img src="/assets/AnyonyamLogo.png" alt="" />
         </div>
-        <div className="center">
-          <div
-            className={`menu-toggle ${menuOpen ? "open" : ""}`}
-            onClick={()=>setMenuOpen(!menuOpen)}
-          >
-            <div className="bar"></div>
-            <div className="bar"></div>
-            <div className="bar"></div>
-          </div>
-          <div className={`menu ${menuOpen ? "open" : ""}`}>
-            {localStorage.getItem("isAdmin") == "true" && (
-              <Link to="/Admin" style={{ textDecoration: 'none', color: 'white' }}><span>Admin</span></Link>
-            )}
-            <Link to={`/Profile/${memberNo}`} style={{ textDecoration: 'none', color: 'white' }}><span>Profile</span></Link>
-            <Link to="/Search" style={{ textDecoration: 'none', color: 'white' }}><span>Search</span></Link>
-            <Link to="/Logout" style={{ textDecoration: 'none', color: 'white' }}><span>Logout</span></Link>
-          </div>
+        <div>
+          <Link to="/" className="logo">
+            <img
+              src="/assets/logo.png"
+              alt="img here"
+              onClick={() => nav(`/Profile/${memberNo}`)}
+              style={{ cursor: 'pointer' }}
+            />
+          </Link>
         </div>
       </div>
-    </div>
+      <div className="menu" onClick={() => setMenuOpen(!menuOpen)}>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
+      <ul className={menuOpen ? "open" : ""}>
+        {localStorage.getItem("isAdmin") == "true" && (
+          <li>
+            <Link to="/Admin" style={{ textDecoration: 'none', color: 'white' }}>
+              <span>Admin</span>
+            </Link>
+          </li>
+        )}
+        <li>
+          <Link to={`/Profile/${memberNo}`} style={{ textDecoration: 'none', color: 'white' }}>
+            <span>Profile</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/Search" style={{ textDecoration: 'none', color: 'white' }}>
+            <span>Search</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/Logout" style={{ textDecoration: 'none', color: 'white' }}>
+            <span>Logout</span>
+          </Link>
+        </li>
+      </ul>
+    </nav>
+    <div className={`overlay ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(false)}></div>
+    </>
   );
 }

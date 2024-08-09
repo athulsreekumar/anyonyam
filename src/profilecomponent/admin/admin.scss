@@ -1,95 +1,106 @@
-// SCSS code for admin dashboard
 $primary-color: #9c424d;
 $secondary-color: #9c88ff;
 $tertiary-color: #f5f6fa;
 $dark-color: #340808;
 $light-color: #7e353e;
 
-.admin {
+.admin{
+    margin-top: 90px;
+    // display: flex;
+    overflow: hidden;
+}
+
+.headerDiv{
     display: flex;
-    height: 90vh;
-    // overflow: hidden;
-    // scroll-behavior: smooth;
-    // font-family: "Prompt", sans-serif;
+    justify-content: space-between;
+}
+
+.leftHeader{
+    span {
+        margin-left: 50px;
+        color: white;
+        text-transform: uppercase;
+        font-family: "Prompt", sans-serif;
+        font-size: 28px;
+        font-weight: 500;
+    }
+}
 
 
+.divButton {
+    
+    // left: 50%;
+    text-align: center;
+    display: flex;
+    button {
+      padding: 0.8em 1.8em;
+    //   margin: 5px;
+      margin-right: 2%;
+      border: 2px solid black;
+      position: relative;
+      overflow: hidden;
+      background-color: transparent;
+      text-align: center;
+      text-transform: uppercase;
+      background: white;
+      font-size: 13px;
+      transition: .3s;
+      z-index: 1;
+      font-family: inherit;
+      color: black;
+      cursor: pointer;
+    }
+  
+    button::before {
+      content: '';
+      width: 0;
+      height: 400%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      background: black;
+      transition: .1s ease;
+      display: block;
+      z-index: -1;
+    }
+  
+    button:hover::before {
+      width: 105%;
+    }
+  
+    button:hover {
+      color: White;
+    }
+  
+    .deleteButton::before {
+      background: red;
+    }
+  
+    .disabledButton {
+      background: rgb(177, 177, 177);
+      border: 0px;
+    }
+  
+    .disabledButton:hover {
+      background: rgb(177, 177, 177);
+      border: 0px;
+      // animation: none;
+    }
+  
+  }
 
-    .main {
-        flex: 1;
-        background-color: $light-color;
-        color: $dark-color;
+.bodyDiv{
+    margin-left: 40px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 20px;
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-
-            .user {
-                display: flex;
-                align-items: center;
-
-                img {
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    margin-right: 10px;
-                }
-
-                span {
-                    margin-left: 10px;
-                    color: white;
-                    text-transform: uppercase;
-                    font-family: "Prompt", sans-serif;
-                    font-size: 32px;
-                    font-weight: 500;
-                }
-
-                i {
-                    font-size: 12px;
-                }
-            }
-
-            .actions {
-                display: flex;
-
-                .btn {
-                    margin-left: 10px;
-                }
-
-                button {
-                    margin-right: 10px;
-                    // margin-top: 4%;
-                    padding: 10px 20px;
-                    // border-radius: 50px;
-                    cursor: pointer;
-                    border: 2px solid black;
-                    background-color: white;
-                    letter-spacing: 1.5px;
-                    text-transform: uppercase;
-                    font-size: 14px;
-                    font-weight: 400;
-                    transition: all 0.1s ease;
-                }
-
-                button:hover {
-                    background-color: black;
-                    color: white;
-                }
-
-                button:active {
-                    color: hsl(0, 0%, 100%);
-                    transform: translateY(0px);
-                    // border-radius: 10px;
-                    transition: 100ms;
-                }
-            }
-        }
-
-        .content {
-            padding: 20px;
-
-            .welcome {
+    
+    
+}
+.welcome {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -132,271 +143,107 @@ $light-color: #7e353e;
                         }
                     }
                 }
-            }
+}
 
-            .charts {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 20px;
-                margin-left: 10px;
-                margin-right: 10px;
+.revenue {
+    margin-left: 10px;
+    width: 70%;
+    background-color: $tertiary-color;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 
-                .revenue {
-                    width: 65%;
-                    background-color: $tertiary-color;
-                    border-radius: 10px;
-                    padding: 15px;
-                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    table {
+        width: 100%; 
+        border-collapse: collapse;
 
-                    table {
-                        // display: flex;
+        th, td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
 
-                        th {
-                            background-color: white;
-                            color: black;
-                            // width: 100%;
-                            align-items: center;
-                            justify-content: center;
-                        }
+        th {
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
 
-                        tbody {
-                            max-height: 300px;
-                            overflow-y: hidden;
-                        }
-                    }
+        tbody {
+            display: block;
+            max-height: 300px; 
+            overflow-y: auto; 
+            width: 100%;
+            cursor: pointer;
+        }
 
-                    h2 {
-                        font-size: 24px;
-                        font-weight: normal;
-                        margin: 0 0 10px 0;
-                    }
-
-                    .options {
-                        display: flex;
-                        margin-bottom: 10px;
-
-                        .btn {
-                            margin-right: 10px;
-                        }
-
-                        .btn.active {
-                            background-color: $primary-color;
-                            color: $dark-color;
-                        }
-                    }
-
-                    .graph {
-                        height: 300px;
-                        /* Graph code goes here */
-                    }
-                }
-
-                .profit {
-                    width: 30%;
-                    background-color: $tertiary-color;
-                    border-radius: 10px;
-                    padding: 15px;
-                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-                    overflow: hidden;
-
-                    h2 {
-                        font-size: 24px;
-                        font-weight: normal;
-                        margin: 0 0 10px 0;
-                    }
-
-                    .graph {
-                        margin-top: 100px;
-                        height: 300px;
-                        /* Graph code goes here */
-                    }
-                }
-            }
-
-            .reports {
-                margin-left: 10px;
-                margin-right: 10px;
-                background-color: $tertiary-color;
-                border-radius: 10px;
-                padding: 15px;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-
-                h2 {
-                    font-size: 24px;
-                    font-weight: normal;
-                    margin: 0 0 10px 0;
-                }
-
-                .getallmembers {
-                    p {
-                        font-size: 26px;
-                    }
-
-                    width: 50%;
-                }
-
-                .options {
-                    width: 50%;
-                    display: flex;
-                    justify-content: flex-end;
-                    margin-bottom: 10px;
-
-                    .btn {
-                        margin-left: 10px;
-                    }
-
-                    button {
-                        margin-right: 10px;
-                        // margin-top: 4%;
-                        padding: 10px 20px;
-                        // border-radius: 50px;
-                        cursor: pointer;
-                        border: 2px solid black;
-                        background-color: white;
-                        letter-spacing: 1.5px;
-                        text-transform: uppercase;
-                        font-size: 10px;
-                        transition: all 0.1s ease;
-                    }
-
-                    button:hover {
-                        background-color: black;
-                        color: white;
-                    }
-
-                    button:active {
-                        color: hsl(0, 0%, 100%);
-                        transform: translateY(0px);
-                        // border-radius: 10px;
-                        transition: 100ms;
-                    }
-                }
-
-
-            }
+        thead, tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed; 
         }
     }
 }
 
-
-.unpaidTable thead {
-    position: sticky;
-    top: 0;
-    /* Stick the header to the top */
-    background-color: white;
-    /* Ensure the header is visible */
-}
-
-.headingRevenue {
+.headingRevenue{
     display: flex;
     justify-content: space-between;
+}
 
-    .buttonRevenue {
-        button {
-            margin-right: 10px;
-            // margin-top: 4%;
-            padding: 10px 20px;
-            // border-radius: 50px;
-            cursor: pointer;
-            border: 2px solid black;
-            background-color: white;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            font-size: 10px;
-            transition: all 0.1s ease;
-        }
 
-        button:hover {
-            background-color: black;
-            color: white;
-        }
 
-        button:active {
-            color: hsl(0, 0%, 100%);
-            transform: translateY(0px);
-            // border-radius: 10px;
-            transition: 100ms;
+@media (max-width: 708px) {
+
+    .leftHeader{
+        display: none;
+    }
+    .rightHeader{
+        .divButton{
+            margin-left: 53px;
+            width: 500px;
         }
     }
-}
+    
+    .welcome{
+        .metrics{
+            flex-direction: column;
 
-.graph-container {
-    display: flex;
-    justify-content: center;
-    /* Center the contents horizontally */
-    align-items: center;
-    /* Center the contents vertically */
-    width: 100%;
-    /* Ensure the container takes up the full width */
-    height: 100%;
-    /* Ensure the container takes up the full height */
-    // overflow: hidden;
-}
+            .card {
+                margin-top: 10px;
+            }
 
-.graph-container canvas {
-    max-width: 100%;
-    /* Ensure the canvas doesn't overflow its container */
-    max-height: 100%;
-    /* Ensure the canvas doesn't overflow its container */
-}
+        }
+    }
+    .headingRevenue{
+        display: flex;
+        flex-direction: column;
 
+        h2{
+            font-size: 16px;
+        }
 
-.form-popup {
-    position: fixed;
-    top: 0;
-    right: -0;
-    /* Initially hidden outside the viewport */
-    width: 400px;
-    height: 100%;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    transition: right 0.3s ease-in-out;
-    /* Add transition for smooth animation */
-    z-index: 1000;
-    /* Ensure the form is above other content */
-    // text-align: center;
-}
+        .divButton{
+            margin-top: 20px;
+        }
 
-// .form-popup.open {
-//     right: 0; /* Slide in from the right when open class is added */
-// }
+    }
 
-.form-popup h2 {
-    margin-bottom: 20px;
-}
+    .revenue{
 
-.form-popup form {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-popup label {
-    margin-bottom: 10px;
-}
-
-.form-popup input {
-    padding: 10px;
-    margin-bottom: 20px;
-}
-
-.form-popup button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    // text-align: center;
-    // align-items: center;
-}
-
-.form-popup button.close-btn {
-    background-color: #dc3545;
-    margin-top: 10px;
-    // width: 100%;
+        width: 200px;
+        padding: 25px;
+        // margin-top: 10px;
+        // margin-left: 10px;
+        // margin-top: 10px;
+        table{
+            display: none;
+        }
+        button{
+            margin: auto;
+        }
+    }
 
 }

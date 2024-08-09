@@ -1,59 +1,72 @@
-.contact{
+.contact {
     background-color: #FFD0A5;
     color: black;
-
-    .content{
+  
+    .content {
+      margin-left: 20%;
+      display: flex;
+      flex-direction: row;
+  
+      .left {
         margin-top: 5%;
-        margin-left: 10%;
-        margin-bottom: 5%;
-        .left{
-            // display: flex;
-            align-items: center;
-            p{
-                font-family: 'Prompt', sans-serif;
-                font-weight: 300;
-                font-size: 32px;
-            }
-
-            .address{
-
-                p{
-                    font-family: 'Prompt', sans-serif;
-                    font-weight: 400;
-                    font-size: 30px;
-                }
-
-            }
-
-            .contactdetails{
-                margin-top: 7%;
-                
-                h3{
-                    
-                    font-family: 'Prompt', sans-serif;
-                    font-weight: 400;
-                    font-size: 27px;
-                }
-            }
-
-            @media (max-width: 768px) {
-                p{
-                    font-size: 18px;
-                }
-                .address{
-                    p{
-                        font-size: 20px;
-                    }
-                }
-                .contactdetails{
-                    p{
-                        font-size: 18px;
-                    }
-                    h3{
-                        font-size: 20px;
-                    }
-                }
-            }
+  
+        p {
+          font-family: 'Prompt', sans-serif;
+          font-weight: 500;
+          font-size: 24px;
         }
+  
+        .address {
+          p {
+            font-family: 'Prompt', sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+          }
+        }
+  
+        .contactdetails {
+          margin-top: 30px;
+  
+          h3 {
+            font-family: 'Prompt', sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+          }
+        }
+      }
+  
+      .right {
+        margin-left: 20%;
+        overflow: hidden;
+        height: 350px;
+        border-radius: 25px;
+      }
     }
-}
+  
+    @media (max-width: 768px) {
+      .content {
+        flex-direction: row;
+  
+        .left {
+          margin-top: 20%;
+          p {
+            font-size: 12px;
+          }
+  
+          .address p {
+            font-size: 10px;
+          }
+  
+          .contactdetails {
+            p {
+              font-size: 12px;
+            }
+            h3 {
+              font-size: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+  

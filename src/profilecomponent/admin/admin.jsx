@@ -1,11 +1,15 @@
 import "./admin.scss";
+import "./../Profile/modalStyle.scss"
 import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import ReactLoading from "react-loading";
 import { useDownloadExcel } from 'react-export-table-to-excel';
 import { PieChart } from '@mui/x-charts/PieChart';
-import {utils as XLSXUtils, write as writeXLSX } from 'xlsx';
+import { utils as XLSXUtils, write as writeXLSX } from 'xlsx';
 import { saveAs } from 'file-saver';
+import { Modal } from '@mui/material';
+import Box from '@mui/material/Box';
+import Fade from '@mui/material/Fade';
 
 export default function Admin(loggedInUser) {
 
@@ -46,6 +50,16 @@ export default function Admin(loggedInUser) {
         // setTempState(selectedProfiles);
     };
 
+    //CreateMember Modal
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+
+    //recordPayment
+    const [sideOpen, setSideOpen] = React.useState(false);
+    const handleSideOpen = () => setSideOpen(true);
+    const handleSideClose = () => setSideOpen(false);
 
     useEffect(() => {
         if (loggedInUser) {
@@ -56,12 +70,12 @@ export default function Admin(loggedInUser) {
     // console.log(name)
 
     const today = new Date();
-    const month = today.getMonth()+1;
+    const month = today.getMonth() + 1;
     // const month1 = today.getUTCMonth()
 
     const year = today.getFullYear();
-    const date = today. getDate();
-    const currentDate = date+ "-" + month + "-" + year;
+    const date = today.getDate();
+    const currentDate = date + "-" + month + "-" + year;
 
     const { onDownload } = useDownloadExcel({
         currentTableRef: tableRef.current,
@@ -87,7 +101,7 @@ export default function Admin(loggedInUser) {
                 setTotalMembers(res.data.totalMembers.length)
                 setPendingAmount(res.data.totalPending)
 
-            
+
             } catch (err) {
                 window.alert("Server is facing some issues, Please Wait");
                 console.log(err);
@@ -149,7 +163,7 @@ export default function Admin(loggedInUser) {
             <div className="App-loading">
                 <div className="overlay"></div>
                 <div className="loading-content">
-                    <ReactLoading type="bars" color="white" height={40} width={30} />
+                    <ReactLoading type="bars" color="black" height={40} width={30} />
                 </div>
             </div>
         );
@@ -195,28 +209,28 @@ export default function Admin(loggedInUser) {
     const exportToExcel = (jsonData, fileName) => {
         // Convert JSON to worksheet
         const ws = XLSXUtils.json_to_sheet(jsonData);
-      
+
         // Create workbook
         const wb = XLSXUtils.book_new();
         XLSXUtils.book_append_sheet(wb, ws, 'Sheet1');
-      
+
         // Generate Excel file
         const excelBuffer = writeXLSX(wb, { bookType: 'xlsx', type: 'array' });
-      
+
         // Convert buffer to blob
         const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-      
+
         // Trigger download
         saveAs(blob, fileName + '.xlsx');
-      };
+    };
 
     const handleExportButtonClick = async () => {
-        
+
         try {
             const response = await axios.get(`${baseURL}/allmembers`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    
+
                 },
                 withCredentials: true,
             });
@@ -234,9 +248,9 @@ export default function Admin(loggedInUser) {
         } catch (error) {
             console.error('API error:', error);
         }
-        
-        
-      };
+
+
+    };
 
     const handleRowClick = (member, UNIQUEID, Name) => {
         // Set selected member and toggle form visibility
@@ -245,7 +259,8 @@ export default function Admin(loggedInUser) {
             UNIQUEID: UNIQUEID,
             Name: `${Name}`
         });
-        setFormVisibility(true);
+        // setFormVisibility(true);
+        handleSideOpen();
     };
 
     const onCreateNew = async () => {
@@ -253,7 +268,7 @@ export default function Admin(loggedInUser) {
             const response = await axios.post(`${baseURL}/newmember`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    
+
                 },
                 withCredentials: true,
             });
@@ -275,133 +290,78 @@ export default function Admin(loggedInUser) {
 
     return (
         <div className="admin">
-            <div className="main">
-                <div className="header">
-                    <div className="user">
-                        {/* <img src="user.jpg" alt="user" /> */}
-                        <span>ADMIN PANEL</span>
-                        <i className="fas fa-angle-down"></i>
-                    </div>
-                    <div className="actions">
-                        <button className="btn btn-primary" onClick={toggleCreateFormVisibility}>CREATE USER</button>
-                        <button className="btn btn-secondary" onClick={handleExportButtonClick}>Export data</button>
-                    </div>
+            <div className="headerDiv">
+                <div className="leftHeader">
+                    <span>ADMIN PANEL</span>
                 </div>
-                <div className="content">
-                    <div className="welcome">
-                        {/* <h1>Welcome back, {name}</h1> */}
-                        <div className="metrics">
-                            <div className="card">
-                                <h3>Unpaid Subscription</h3>
-                                <p>{notpaid}</p>
-                                <span>NOT PAID</span>
-                            </div>
-                            <div className="card">
-                                <h3>Total Number of Members</h3>
-                                <p>{totalMembers}</p>
-                                <span>MEMBERS</span>
-                            </div>
-                            <div className="card">
-                                <h3>Total Pending Amount</h3>
-                                <p>&#x20B9; {pendingAmount.toLocaleString('en-IN')}</p>
-                                <span>DUE</span>
-                            </div>
-                        </div>
+                <div className="rightHeader">
+                    <div className="divButton">
+                        <button onClick={handleOpen}>CREATE USER</button>
+                        <button onClick={handleExportButtonClick}>Export data</button>
                     </div>
-                    <div className="charts">
-                        <div className="revenue">
-                            <div className="headingRevenue">
-                                <div className="titleRevenue">
-                                    <h2>PENDING SUBSCRIPTION</h2>
-                                </div>
-                                <div className="buttonRevenue">
-                                    <button onClick={onDownload}>EXPORT EXCEL</button>
-                                </div>
-                            </div>
-
-                            <div className="graph">
-                                <table className="unpaidTable" ref={tableRef}>
-                                    <thead>
-                                        <tr>
-                                            <th>Member Number</th>
-                                            <th>Name</th>
-                                            <th>Contact</th>
-                                            <th>Pending Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {/* Use map function to render table rows */}
-                                        {/* Assuming unpaidMembers is an array of objects with 'memberNo', 'name', and 'contact' properties */}
-                                        {unpaidProfile.map(index => (
-                                            <tr key={index.MemberNo} onClick={() => handleRowClick(index.MemberNo, index.UNIQUEID, index.Name)}>
-                                                <td>{index.MemberNo}</td>
-                                                <td>{index.Name}</td>
-                                                <td>{index.Mobile}</td>
-                                                <td>{index.Subscription}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div className="profit">
-                            <h2>UNPAID SUBSCRIPTIONS</h2>
-                            <div className="graph-container">
-                                <PieChart
-                                    series={[
-                                        {
-                                            data: [
-                                                { id: 0, value: subscriptionData.greaterThan2000, label: ' >= 2000' },
-                                                { id: 1, value: subscriptionData.between1000And2000, label: '1000-2000' },
-                                                { id: 2, value: subscriptionData.lessThan1000, label: '< 1000' },
-                                            ],
-                                        },
-                                    ]}
-                                    width={400}
-                                    height={200}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    {/* <div className="reports">
-                        <div className="getallmembers">
-                            <p>Get all User Details</p>
-                        </div>
-                        <div className="options">
-                            
-                        </div>
-                        <div className="table">
-                           
-                        </div>
-                    </div> */}
                 </div>
             </div>
-            {isFormVisible && (
-                <div className="form-popup">
-
-                    <form onSubmit={async (e) => {
-                        e.preventDefault();
-                        await onSaveChanges();
-                    }}>
-                        <h2>Record a Payment</h2>
-
-                        <label htmlFor="">Member Name</label>
-                        <input type="text" value={selectedMember.Name} readOnly />
-                        <label htmlFor="">Member Number</label>
-                        <input type="text" value={selectedMember.member} readOnly />
-                        <label>Amount:</label>
-                        <input type="text" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-                        <button type="submit">Submit</button>
-                    </form>
-                    <button className="close-btn" onClick={() => setFormVisibility(false)}>Close</button>
+            <div className="bodyDiv">
+                <div className="welcome">
+                    {/* <h1>Welcome back, {name}</h1> */}
+                    <div className="metrics">
+                        <div className="card">
+                            <h3>Unpaid Subscription</h3>
+                            <p>{notpaid}</p>
+                            <span>NOT PAID</span>
+                        </div>
+                        <div className="card">
+                            <h3>Total Number of Members</h3>
+                            <p>{totalMembers}</p>
+                            <span>MEMBERS</span>
+                        </div>
+                        <div className="card">
+                            <h3>Total Pending Amount</h3>
+                            <p>&#x20B9; {pendingAmount.toLocaleString('en-IN')}</p>
+                            <span>DUE</span>
+                        </div>
+                    </div>
                 </div>
-            )}
-
-            {isCreateFormVisible && (
-                <div className="popupContainer">
-                    <div className="popupBackground" onClick={toggleCreateFormVisibility}></div>
-                    <div className="popupForm">
-                        <h2>Add New Member</h2>
+                <div className="revenue">
+                    <div className="headingRevenue">
+                        <div className="titleRevenue">
+                            <h2>PENDING SUBSCRIPTION</h2>
+                        </div>
+                        <div className="divButton">
+                            <button onClick={onDownload}>EXPORT EXCEL</button>
+                        </div>
+                    </div>
+                    <div className="graph">
+                        <table className="unpaidTable" ref={tableRef}>
+                            <thead>
+                                <tr>
+                                    <th>Member Number</th>
+                                    <th>Name</th>
+                                    <th>Contact</th>
+                                    <th>Pending Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {unpaidProfile.map(index => (
+                                    <tr key={index.MemberNo} onClick={() => handleRowClick(index.MemberNo, index.UNIQUEID, index.Name)}>
+                                        <td>{index.MemberNo}</td>
+                                        <td>{index.Name}</td>
+                                        <td>{index.Mobile}</td>
+                                        <td>{index.Subscription}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box className="modal-box">
+                        <h3>Create New Member</h3>
                         <form onSubmit={async (e) => {
                             e.preventDefault();
                             await onCreateNew();
@@ -438,13 +398,42 @@ export default function Admin(loggedInUser) {
                                     </tr>
                                 </tbody>
                             </table>
-                            <div className="buttonclass">
+                            <div className="divButton">
                                 <button type="submit">ADD MEMBER</button>
                             </div>
                         </form>
-                    </div>
-                </div>
-            )}
+                    </Box>
+                </Modal>
+
+                <Modal
+                    open={sideOpen}
+                    onClose={handleSideClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box className="modal-box">
+                        <form onSubmit={async (e) => {
+                            e.preventDefault();
+                            await onSaveChanges();
+                        }}>
+                            <h2>Record a Payment</h2>
+
+                            <label htmlFor="">Member Name</label>
+                            <input type="text" value={selectedMember.Name} readOnly />
+                            <label htmlFor="">Member Number</label>
+                            <input type="text" value={selectedMember.member} readOnly />
+                            <label>Amount:</label>
+                            <input type="text" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+
+                        </form>
+                        <div className="divButton">
+                            <button onClick={onSaveChanges} >Submit</button>
+                            <button className="close-btn" onClick={handleSideClose}>Close</button>
+                        </div>
+
+                    </Box>
+                </Modal>
+            </div>
         </div>
     );
 }
