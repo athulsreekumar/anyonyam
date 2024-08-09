@@ -101,14 +101,15 @@ export default function Profile() {
             window.alert("Please select an image to upload.");
             return;
         }
-
+        const token = localStorage.getItem("user-auth-token");
         const formData = new FormData();
         formData.append('image', image);
 
         try {
             const response = await axios.post(`${baseURL}/upload?UNIQUEID=${UNIQUEID}`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
@@ -156,11 +157,13 @@ export default function Profile() {
 
 
     const onSaveChanges = async () => {
+        const token = localStorage.getItem("user-auth-token");
         console.log(selectedProfiles)
         try {
             const response = await axios.put(`${baseURL}/member`, selectedProfiles, {
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                     withCredentials: true
                 },
                 withCredentials: true,
@@ -181,12 +184,14 @@ export default function Profile() {
     };
 
     const onDelete = async (UNIQUEID) => {
+        const token = localStorage.getItem("user-auth-token");
         var answer = window.confirm("Delete User?");
         if (answer) {
             try {
                 const response = await axios.delete(`${baseURL}/member?UNIQUEID=${UNIQUEID}`, {
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     withCredentials: true,
                 });
@@ -204,6 +209,7 @@ export default function Profile() {
     };
 
     const onCreate = async () => {
+        const token = localStorage.getItem("user-auth-token");
         setFormData((prevData) => ({
             ...prevData,
             Illam: illam,
@@ -213,6 +219,7 @@ export default function Profile() {
             const response = await axios.post(`${baseURL}/member`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 withCredentials: true,
             });
@@ -251,23 +258,30 @@ export default function Profile() {
         localStorage.setItem("isAdmin", isAdmin);
     }, [isAdmin]);
 
+    const fetchProfile = async () => {
+        try {
+            const token = localStorage.getItem("user-auth-token"); // Get token from localStorage
+    
+            const res = await axios.get(`${baseURL}/profile?MemberNo=${memberNo}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Add token to Authorization header
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            setUserSelected(false);
+            setProfile(res.data.data);
+            setIsAdmin(res.data.isAdmin);
+            const { Illam } = res.data.data[0];
+            setIllam(Illam);
+            setUserMemberNo(localStorage.getItem("memberNo"));
+        } catch (err) {
+            window.alert("Server is facing some issues, Please Wait");
+            console.log(err);
+        }
+    };
+    
     useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const res = await axios.get(`${baseURL}/profile?MemberNo=${memberNo}`, {
-                    withCredentials: true
-                });
-                setUserSelected(false);
-                setProfile(res.data.data);
-                setIsAdmin(res.data.isAdmin);
-                const { Illam } = res.data.data[0];
-                setIllam(Illam);
-                setUserMemberNo(localStorage.getItem("memberNo"));
-            } catch (err) {
-                window.alert("Server is facing some issues, Please Wait");
-                console.log(err);
-            }
-        };
         fetchProfile();
     }, [memberNo]);
 

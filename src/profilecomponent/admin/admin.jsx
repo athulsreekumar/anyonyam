@@ -26,6 +26,7 @@ export default function Admin(loggedInUser) {
     const [selectedMember, setSelectedMember] = useState([]);
     const [isCreateFormVisible, setCreateFormVisible] = useState(false);
     const [amount, setAmount] = useState('');
+    const token = localStorage.getItem("user-auth-token");
 
     // const [isAdmin, setIsAdmin] = useState(false);
 
@@ -92,26 +93,36 @@ export default function Admin(loggedInUser) {
     useEffect(() => {
         const fetchPaidSubscription = async () => {
             try {
-                const res = await axios.get(`${baseURL}/paidSubscription`, {
-                    withCredentials: true
+                const response = await fetch(`${baseURL}/paidSubscription`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    credentials: 'include', // Ensures cookies are sent with the request
                 });
-
-                console.log('Data length of UNPAID MEMBERS:', res.data.paidSubscriptions);
-                setNotPaid(res.data.paidSubscriptions.length)
-                setUnpaidProfile(res.data.paidSubscriptions)
-                console.log('Data length TOTAL MEMBERS:', res.data.totalMembers.length);
-                setTotalMembers(res.data.totalMembers.length)
-                setPendingAmount(res.data.totalPending)
-
-
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+    
+                const data = await response.json();
+                console.log('Data length of UNPAID MEMBERS:', data.paidSubscriptions);
+                setNotPaid(data.paidSubscriptions.length);
+                setUnpaidProfile(data.paidSubscriptions);
+                console.log('Data length TOTAL MEMBERS:', data.totalMembers.length);
+                setTotalMembers(data.totalMembers.length);
+                setPendingAmount(data.totalPending);
+    
             } catch (err) {
                 window.alert("Server is facing some issues, Please Wait");
-                console.log(err);
+                console.error(err);
             }
         };
-
+    
         fetchPaidSubscription();
     }, []);
+    
 
     useEffect(() => {
 
@@ -179,7 +190,8 @@ export default function Admin(loggedInUser) {
             const response = await fetch(url, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 credentials: 'include'
             });
@@ -232,7 +244,7 @@ export default function Admin(loggedInUser) {
             const response = await axios.get(`${baseURL}/allmembers`, {
                 headers: {
                     'Content-Type': 'application/json',
-
+                    'Authorization': `Bearer ${token}`
                 },
                 withCredentials: true,
             });
@@ -270,7 +282,7 @@ export default function Admin(loggedInUser) {
             const response = await axios.post(`${baseURL}/newmember`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
-
+                    'Authorization': `Bearer ${token}`
                 },
                 withCredentials: true,
             });
