@@ -9,8 +9,8 @@ import './login.scss'
 
 const Login = ({ onLogin, loggedInUser, setLoggedInUser }) => {
 
-    const baseURL = process.env.REACT_APP_BASE_URL
-    // const baseURL = "https://anyonyam.onrender.com"
+    // const baseURL = process.env.REACT_APP_BASE_URL
+    const baseURL = "https://anyonyam.onrender.com"
     // const baseURL = "http://localhost:8800"
 
 
@@ -44,6 +44,7 @@ const Login = ({ onLogin, loggedInUser, setLoggedInUser }) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             },
             credentials: 'include',
             body: JSON.stringify(dataToSubmit),
@@ -103,6 +104,7 @@ const Login = ({ onLogin, loggedInUser, setLoggedInUser }) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             },
             credentials: 'include',
             body: JSON.stringify(dataToSubmit),
