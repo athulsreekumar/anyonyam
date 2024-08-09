@@ -44,7 +44,7 @@ const Login = ({ onLogin, loggedInUser, setLoggedInUser }) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                // 'Access-Control-Allow-Origin': '*'
             },
             credentials: 'include',
             body: JSON.stringify(dataToSubmit),
@@ -104,7 +104,7 @@ const Login = ({ onLogin, loggedInUser, setLoggedInUser }) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                // 'Access-Control-Allow-Origin': '*'
             },
             credentials: 'include',
             body: JSON.stringify(dataToSubmit),
