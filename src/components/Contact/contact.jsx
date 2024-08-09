@@ -1,5 +1,7 @@
 import React from "react"
+// import SimpleMap from "./maps"
 import "./contact.scss"
+
 
 export default function Contact() {
   return (
@@ -20,6 +22,9 @@ export default function Contact() {
                     <h3>+91 9495594281</h3>
                     <h3>anyonyam2005@gmail.com</h3>
                 </div>
+            </div>
+            <div className="right">
+               
             </div>
         </div>
     </div>

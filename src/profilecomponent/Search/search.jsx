@@ -34,7 +34,7 @@ export default function Search() {
         Subscription: ''
     });
 
-    
+
 
 
     const nav = useNavigate();
@@ -113,71 +113,37 @@ export default function Search() {
         setTimeout(() => setLoading(false), 2000)
     }, [])
 
-    
+
 
     return (
         <div className="search">
-            <div className="wrapper">
-                <div className="searchbar">
-                    <form onSubmit={handleFormSubmit}>
-
-                        <div className="formContent">
-                            <input type="text" value={name} onChange={(event) => setName(event.target.value)} name="name" placeholder="SEARCH BY NAME" />
-                            <button type="submit" class="button-27" role="button">GO</button>
-                        </div>
-
-                        {/* <button class="button-27" role="button">ADD MEMBER</button> */}
-                        {/* <input type="submit" className="button-27" /> */}
-                    </form>
-                </div>
-               
+            <div className="searchDiv">
+                <form onSubmit={handleFormSubmit}>
+                    <div className="searchbox">
+                        <input type="text" value={name} onChange={(event) => setName(event.target.value)} name="name" placeholder="SEARCH BY NAME" />
+                    </div>
+                    <div className="searchButton">
+                        <button type="submit" class="button-27" role="button">GO</button>
+                    </div>
+                </form>
             </div>
-            {searchResults && searchData && (
-                <div className="searchResults">
-                    {search.map((user) => (
-                        // <Link to={`/profile/${user.MemberNo}`} key={user.UNIQUEID}>
-                        <div className="userDetails" key={user.UNIQUEID} onClick={() => handleUserDetailsClick(user.MemberNo)}>
-                            <div className="userName">
+            <div className="searchResults">
+                {search.map((user) => (
+                    // <Link to={`/profile/${user.MemberNo}`} key={user.UNIQUEID}>
+                    <div className="userDetails" key={user.UNIQUEID} onClick={() => handleUserDetailsClick(user.MemberNo)}>
+                        <div className="userName">
 
-                                <p>Member No : {user.MemberNo}</p>
-                                <p>{user.Name}</p>
-                                <p>{user.Illam}</p>
+                            <p>Member No : {user.MemberNo}</p>
+                            <p>{user.Name}</p>
+                            <p>{user.Illam}</p>
 
-
-                            </div>
 
                         </div>
 
-                    ))}
-                </div>
-            )}
-            {loading && (
-                <div className="App-loading">
-                    <div className="overlay"></div>
-                    <div className="loading-content">
-                        <ReactLoading type="bars" color="white" height={30} width={30} />
                     </div>
-                </div>
-            )}
-            {(!searchData && !searchResults) && (
 
-                <div className="imageContainer">
-                    <img src="/assets/searching.svg" alt="image" />
-                </div>
-
-            )}
-            {(!searchResults && searchData) && (
-
-                <div className="imageContainer">
-                    <div className="imageClass">
-                        <img src="/assets/notFound.svg" alt="image" />
-                    </div>
-                    <div>
-                        <h1>Data Not Found :/</h1>
-                    </div>
-                </div>
-
-            )}
+                ))}
+            </div>
         </div>
     );
 }

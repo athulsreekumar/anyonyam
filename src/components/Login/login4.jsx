@@ -1,16 +1,13 @@
-import "./login.scss"
+
 import { useNavigate } from "react-router-dom"
 import React, { useState, useEffect } from "react"
-// import axios from 'axios';
 import OtpInput from 'react-otp-input';
-// import Profile from "../../profilecomponent/Profile/profile2.jsx";
 import ReactLoading from "react-loading";
+import './login.scss'
 
 
-export default function Login({ onLogin, loggedInUser, setLoggedInUser }) {
 
-
-    // const baseUrl = "https://anyonyam.onrender.com"
+const Login = ({ onLogin, loggedInUser, setLoggedInUser }) => {
 
     const baseURL = process.env.REACT_APP_BASE_URL
 
@@ -28,6 +25,7 @@ export default function Login({ onLogin, loggedInUser, setLoggedInUser }) {
 
 
     const handleSubmit = (e) => {
+        console.log("Hellooo")
         e.preventDefault();
         setLoading(true)
         if (phone.trim() === '' || phone.length !== 10) {
@@ -83,6 +81,13 @@ export default function Login({ onLogin, loggedInUser, setLoggedInUser }) {
                 setLoading(false)
             });
     };
+    
+    const handleOtpChange = (event) => {
+        const { value } = event.target;
+        if (/^\d{0,4}$/.test(value)) {
+          setOtp(value);
+        }
+      };
 
     const handleVerify = (e) => {
         e.preventDefault();
@@ -152,61 +157,60 @@ export default function Login({ onLogin, loggedInUser, setLoggedInUser }) {
             <div className="App-loading">
                 <div className="overlay"></div>
                 <div className="loading-content">
-                    <ReactLoading type="bars" color="white" height={30} width={30} />
+                    <ReactLoading type="bars" color="black" height={30} width={30} />
                 </div>
             </div>
         );
     }
 
+
     return (
-
-        <div className="login">
-            <div className={`container ${submitted ? 'submitted' : ''}`}>
-
-                {!submitted ? (
-                    <div className="form-class">
-                        <div className="avatar">
-                            <img src="assets/AnyonyamLogo.png" alt="img" />
-                        </div>
-                        <p>Login</p>
-                        <form onSubmit={handleSubmit}>
-                            <p>Enter Phone Number</p>
-                            <input type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} name="phone" />
-
-                            <button>Get OTP</button>
-
-                            <p className="error-message" style={{ opacity: phoneError ? '100%' : '0%' }}>
-                                Phone Number Does Not exist. Please contact admin
-                            </p>
-                        </form>
+        <div className="login-main">
+            <div className="login-left">
+                <img src="assets/combinedLogo.png" alt="" />
+            </div>
+            <div className="login-right">
+                <div className="login-right-container">
+                    <div className="login-logo">
+                        <img src="assets/AnyonyamLogo.png" alt="" />
                     </div>
-                ) : (
-                    <div className="form-class">
-                        <div className="avatar">
-                            <img src="assets/AnyonyamLogo.png" alt="img" />
-                        </div>
-                        <p>Login</p>
-                        <form onSubmit={handleVerify}>
-                            <p>Enter OTP</p>
+                    <div className="login-center">
+                        <h2>Hello!</h2>
+                        <p>Please enter your details</p>
+                        {!submitted ? (
+                            <form onSubmit={handleSubmit}>
+                                <input type="tel" placeholder="Enter your Phone number" value={phone} onChange={(event) => setPhone(event.target.value)} name="phone" />
+                                <div className="login-center-buttons">
+                                    <button type="button" onClick={handleSubmit}>Get OTP</button>
+                                    <p className="error-message" style={{ opacity: phoneError ? '100%' : '0%' }}>
+                                        Phone Number Does Not exist. Please contact admin
+                                    </p>
+                                </div>
+                            </form>
+                        ) : (
+                            <form onSubmit={handleVerify}>
+                                <input
+                                    type="text"
+                                    placeholder="Enter OTP"
+                                    value={otp}
+                                    onChange={handleOtpChange}
+                                    maxLength="4"
+                                    name="otp"
+                                />
+                                <div className="login-center-buttons">
+                                    <button type="button" onClick={handleVerify}>Sumbit OTP</button>
+                                    <p className="error-message" style={{ opacity: phoneError ? '100%' : '0%' }}>
+                                        Phone Number Does Not exist. Please contact admin
+                                    </p>
+                                </div>
+                            </form>
+                        )}
 
-                            <OtpInput className="otpinput"
-                                containerStyle={{ justifyContent: 'center' }}
-                                value={otp}
-                                onChange={setOtp}
-                                numInputs={4}
-                                renderSeparator={<span>&nbsp;&nbsp;</span>}
-                                renderInput={(props) => <input {...props} />}
-                            />
-
-                            <button>Verify OTP</button>
-
-                            <p className="error-message" style={{ opacity: otpError ? '100%' : '0%' }}>
-                                Incorrect OTP. Please try again.
-                            </p>
-                        </form>
                     </div>
-                )}
+                </div>
             </div>
         </div>
     );
-}
+};
+
+export default Login;
