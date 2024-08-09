@@ -40,7 +40,7 @@ const Login = ({ onLogin, loggedInUser, setLoggedInUser }) => {
 
         console.log(dataToSubmit)
 
-        fetch(`${baseURL}/login`, {
+        fetch(`/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ const Login = ({ onLogin, loggedInUser, setLoggedInUser }) => {
         const dataToSubmit = { "otp": otp, "phone": phone }
 
 
-        fetch(`${baseURL}/auth`, {
+        fetch(`/auth`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
