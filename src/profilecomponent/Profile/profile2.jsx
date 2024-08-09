@@ -38,7 +38,7 @@ export default function Profile() {
     const baseURL = process.env.REACT_APP_BASE_URL
     // const baseURL = "http://localhost:8800"
     // const baseURL = "https://anyonyam.onrender.com"
-
+    console.log(baseURL)
     //EDIT MODAL::
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
