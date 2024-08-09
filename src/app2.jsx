@@ -15,6 +15,7 @@ import Profile from "./profilecomponent/Profile/profile2.jsx";
 import Search from "./profilecomponent/Search/search.jsx";
 import Logout from "./profilecomponent/Logout/logout.jsx";
 import Admin from "./profilecomponent/admin/admin.jsx";
+import CookieConsent from "react-cookie-consent";
 
 function App() {
 
@@ -50,6 +51,16 @@ function App() {
 
   return (
     <div className="App">
+      <CookieConsent
+        onAccept={(acceptedByScrolling) => {
+          if (acceptedByScrolling) {
+            // triggered if user scrolls past threshold
+            alert("Accept was triggered by user scrolling");
+          } else {
+            alert("Accept was triggered by clicking the Accept button");
+          }
+        }}
+      ></CookieConsent>
       <div className="NavBar">
         {!localStorage.getItem("loggedIn") && (<>
           <Topbar scrollToSection={scrollToSection} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
