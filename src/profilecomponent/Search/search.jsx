@@ -20,8 +20,8 @@ export default function Search() {
     const [loading, setLoading] = useState(true)
     // const [isAdmin, setIsAdmin] = useState(false);
 
-    // const baseURL = process.env.REACT_APP_BASE_URL
-    const baseURL = "https://anyonyam.onrender.com"
+    const baseURL = process.env.REACT_APP_BASE_URL
+    // const baseURL = "https://anyonyam.onrender.com"
     // const baseURL = "http://localhost:8800"
 
 
