@@ -4,31 +4,20 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 800px;
-    background-color:#FAFAFA; // Make sure to define $background-paper in your SCSS variables
+    background-color: #FAFAFA;
     border: 1px solid #000;
     border-radius: 14px;
-    box-shadow: 24px 24px 24px rgba(0, 0, 0, 0.2); // Adjust the box-shadow to your needs
-    padding: 32px; // 8 * 4 (converting from the p: 8 value in the original style)
-    overflow: scroll;
-    border-collapse: collapse;
+    box-shadow: 24px 24px 24px rgba(0, 0, 0, 0.2);
+    padding: 32px;
+    max-height: 90vh; 
+    overflow-y: auto;
 }
 
-
 @media (max-width: 708px) {
-
     .modal-box {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        background-color:#FAFAFA; // Make sure to define $background-paper in your SCSS variables
-        border: 1px solid #000;
-        border-radius: 8px;
-        box-shadow: 24px 24px 24px rgba(0, 0, 0, 0.2); // Adjust the box-shadow to your needs
-        padding: 8px; // 8 * 4 (converting from the p: 8 value in the original style)
-        // overflow: scroll;
+        width: 90%; 
+        padding: 16px; 
+        max-height: 90vh; 
+        overflow-y: auto; 
     }
-    
-  
-  }
+}
