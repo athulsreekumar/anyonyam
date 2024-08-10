@@ -19,6 +19,7 @@ export default function Search() {
     const [searchResults, setSearchResults] = useState(false);
     const [loading, setLoading] = useState(true)
     // const [isAdmin, setIsAdmin] = useState(false);
+    const token = localStorage.getItem("user-auth-token");
 
     const baseURL = process.env.REACT_APP_BASE_URL
     // const baseURL = "https://anyonyam.onrender.com"
@@ -42,62 +43,51 @@ export default function Search() {
     const nav = useNavigate();
 
     const handleFormSubmit = async (event) => {
-
-        setLoading(true)
+        setLoading(true);
         event.preventDefault();
+    
         if (name === '') {
-
-            setLoading(false)
-            return
-
-
+            setLoading(false);
+            return;
         }
-        const url = `${baseURL}/search?name=` + name;
-
+    
+        const url = `${baseURL}/search?name=${name}`;
+    
         try {
-            const res = await axios.get(url, {
-                withCredentials: true
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                credentials: 'include', // Ensures cookies are sent with the request
             });
-            setSearch(res.data);
-            // console.log(name)
-            // setSearchData(false)
-            // setSearchResults(false)
-
-            if (res.status === 200) {
-                setSearchResults(true)
-                setSearchData(true)
+    
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+            setSearch(data);
+    
+            if (response.status === 200) {
+                setSearchResults(true);
+                setSearchData(true);
                 setTimeout(() => {
                     setLoading(false);
                 }, 1000);
             }
-
-
+    
         } catch (err) {
-            setLoading(true)
-
-            setTimeout(() => {
-                setLoading(false);
-            }, 2000);
-
-
-
-            if (err.response.status === 404) {
-                setLoading(true)
-
-                setTimeout(() => {
-                    setLoading(false);
-                }, 2000);
-                setSearchResults(false)
-                setSearchData(true)
-                // console.log(res.status)
+            console.error(err);
+            setLoading(false);
+    
+            if (err.message.includes('404')) {
+                setSearchResults(false);
+                setSearchData(true);
+            } else if (err.message.includes('500') || err.message.includes('521')) {
+                window.alert("The server is facing some issues. Please Wait");
             }
-
-            if (err.response.status === 500 || err.response.status === 521) {
-                window.alert("The server is facing some issues. Please Wait")
-                console.log(err);
-            }
-
-
         }
     };
 
