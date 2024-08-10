@@ -353,7 +353,7 @@ export default function Profile() {
                                 <div className="personal" onClick={() => setProfileStatus('personal')}>
                                     <div className="InfoTitle">
                                         <div className="titleHeading">
-                                            <h3>Personal Information</h3>
+                                            <h3>Personal Info</h3>
                                         </div>
                                         <div className="edit">
                                             {isEditing ? (
