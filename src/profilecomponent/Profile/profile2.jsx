@@ -125,7 +125,7 @@ export default function Profile() {
 
     //POST PFP - End
 
-   
+
 
 
     const [formData, setFormData] = useState({
@@ -261,14 +261,14 @@ export default function Profile() {
     const fetchProfile = async () => {
         try {
             const token = localStorage.getItem("user-auth-token"); // Get token from localStorage
-    
+
             const res = await axios.get(`${baseURL}/profile?MemberNo=${memberNo}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`, // Add token to Authorization header
                     'Content-Type': 'application/json'
                 }
             });
-    
+
             setUserSelected(false);
             setProfile(res.data.data);
             setIsAdmin(res.data.isAdmin);
@@ -280,7 +280,7 @@ export default function Profile() {
             console.log(err);
         }
     };
-    
+
     useEffect(() => {
         fetchProfile();
     }, [memberNo]);
@@ -342,7 +342,7 @@ export default function Profile() {
                                     onError={handleImageError} // Add onError handler here
                                 />
                             </div>
-                            {isEditing && (<div className="imageButtons">
+                            {(isEditing && (isAdmin || userMemberNo === memberNo)) && (<div className="imageButtons">
                                 <form onSubmit={(e) => onImageSubmit(e, selectedProfiles.UNIQUEID)}>
                                     <input type="file" onChange={onFileChange} required />
                                     <button type="submit">Upload</button>
@@ -355,13 +355,15 @@ export default function Profile() {
                                         <div className="titleHeading">
                                             <h3>Personal Info</h3>
                                         </div>
-                                        <div className="edit">
-                                            {isEditing ? (
-                                                <Button onClick={() => setIsEditing(false)} >Cancel</Button>
-                                            ) : (
-                                                <Button onClick={handleEdit} >Edit</Button>
-                                            )}
-                                        </div>
+                                        {(isAdmin || userMemberNo === memberNo) && (
+                                            <div className="edit">
+                                                {isEditing ? (
+                                                    <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+                                                ) : (
+                                                    <Button onClick={handleEdit}>Edit</Button>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                     {profileStatus === 'personal' && <div className="content">
                                         <form onSubmit={async (e) => {
@@ -423,14 +425,15 @@ export default function Profile() {
                                         <div className="titleHeading">
                                             <h3>Additional Info</h3>
                                         </div>
-                                        <div className="edit">
-                                            {isEditing ? (
-                                                <Button onClick={() => setIsEditing(false)} >Cancel</Button>
-                                            ) : (
-                                                <Button onClick={handleEdit} >Edit</Button>
-                                            )}
-
-                                        </div>
+                                        {(isAdmin || userMemberNo === memberNo) && (
+                                            <div className="edit">
+                                                {isEditing ? (
+                                                    <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+                                                ) : (
+                                                    <Button onClick={handleEdit}>Edit</Button>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                     {profileStatus === 'additional' && <div className="content">
                                         <form onSubmit={onSaveChanges}>
@@ -459,8 +462,10 @@ export default function Profile() {
                                     {isEditing && (
                                         <button onClick={onSaveChanges}>Save Changes</button>
                                     )}
-
-                                    <button onClick={() => onDelete(selectedProfiles.UNIQUEID)} className="deleteButton">DELETE</button>
+                                    {(isAdmin || userMemberNo === memberNo) && (
+                                        <button onClick={() => onDelete(selectedProfiles.UNIQUEID)} className="deleteButton">DELETE</button>
+                                    )}
+                                    
                                 </div>
 
                             </div>
