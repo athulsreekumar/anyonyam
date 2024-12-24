@@ -384,6 +384,8 @@ export default function Profile() {
                                                 <input type="text" name="mobile" value={selectedProfiles.Mobile} onChange={(e) => setSelectedProfiles({ ...selectedProfiles, Mobile: e.target.value })} /><br />
                                                 <label>Education</label><br />
                                                 <input type="text" name="Education" value={selectedProfiles.EDUCATION} onChange={(e) => setSelectedProfiles({ ...selectedProfiles, EDUCATION: e.target.value })} /><br />
+                                                <label>Date Of Birth</label><br />
+                                                <input type="date" name="DOB" value={selectedProfiles.DOB} readOnly={!isEditing} onChange={(e) => setSelectedProfiles({ ...selectedProfiles, DOB: e.target.value })} /><br />                                        
                                             </div>
                                         </form>
                                     </div>}
