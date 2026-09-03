@@ -8,7 +8,7 @@
 .searchDiv {
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #9c424d;
+  background-color: var(--color-primary);
   width: 100%;
   display: flex;
   justify-content: center;
@@ -87,20 +87,30 @@
 .searchResults {
 
   width: 800px;
-  // background-color: white;
   margin-top: 100px;
   padding-top: 50px;
 
+  .noResults {
+      text-align: center;
+      color: var(--color-text-muted);
+      font-size: var(--text-lg);
+  }
+
   .userDetails {
 
-      background-color: beige;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-      border-radius: 5px;
+      background-color: var(--color-surface);
+      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius-md);
       display: flex;
       margin: 20px;
       padding: 30px;
       cursor: pointer;
-      
+      transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+
+      &:hover {
+          transform: translateY(-3px);
+          box-shadow: var(--shadow-md);
+      }
 
       .userName{
 

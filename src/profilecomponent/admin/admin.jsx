@@ -1,453 +1,313 @@
 import "./admin.scss";
 import "./../Profile/modalStyle.scss"
-import React, { useState, useEffect, useRef } from "react";
-import axios from 'axios';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import ReactLoading from "react-loading";
 import { useDownloadExcel } from 'react-export-table-to-excel';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { utils as XLSXUtils, write as writeXLSX } from 'xlsx';
+import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import { Modal } from '@mui/material';
 import Box from '@mui/material/Box';
-import Fade from '@mui/material/Fade';
+import { api } from "../../api/client";
+import { useAuth } from "../../auth/AuthContext";
+import { useToast } from "../../components/Toast/ToastContext";
 
-export default function Admin(loggedInUser) {
+const EMPTY_CREATE_FORM = {
+  Name: '',
+  Illam: '',
+  Mobile: '',
+  Area: '',
+  DOB: '',
+  RELATIONSHIP: 'MEMBER',
+  Subscription: ''
+};
 
+export default function Admin() {
+  const { name } = useAuth();
+  const { showToast } = useToast();
 
+  const [loading, setLoading] = useState(true);
+  const [notPaidCount, setNotPaidCount] = useState(0);
+  const [totalMembers, setTotalMembers] = useState(0);
+  const [unpaidProfile, setUnpaidProfile] = useState([]);
+  const [pendingAmount, setPendingAmount] = useState(0);
+  const tableRef = useRef(null);
+  const [selectedMember, setSelectedMember] = useState(null);
+  const [amount, setAmount] = useState('');
+  const [formData, setFormData] = useState(EMPTY_CREATE_FORM);
 
-    const [name, setName] = useState(loggedInUser?.name || '');
-    const [loading, setLoading] = useState(true)
-    const [notpaid, setNotPaid] = useState()
-    const [totalMembers, setTotalMembers] = useState()
-    const [unpaidProfile, setUnpaidProfile] = useState([]);
-    const [pendingAmount, setPendingAmount] = useState('');
-    const tableRef = useRef(null);
-    const [isFormVisible, setFormVisibility] = useState(false);
-    const [selectedMember, setSelectedMember] = useState([]);
-    const [isCreateFormVisible, setCreateFormVisible] = useState(false);
-    const [amount, setAmount] = useState('');
-    const token = localStorage.getItem("user-auth-token");
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-    // const [isAdmin, setIsAdmin] = useState(false);
+  const [sideOpen, setSideOpen] = useState(false);
+  const handleSideOpen = () => setSideOpen(true);
+  const handleSideClose = () => setSideOpen(false);
 
-    const [subscriptionData, setSubscriptionData] = useState({
-        greaterThan2000: 0,
-        between1000And2000: 0,
-        lessThan1000: 0
-    });
+  const today = new Date();
+  const currentDate = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
 
-    const [formData, setFormData] = useState({
-        Name: '',
-        Illam: '',
-        Mobile: '',
-        Area: '',
-        DOB: '',
-        Relationship: 'MEMBER',
-        Subscription: ''
-    });
+  const { onDownload } = useDownloadExcel({
+    currentTableRef: tableRef.current,
+    filename: `PendingPayment_${currentDate}`,
+    sheet: 'Users'
+  });
 
-    const toggleCreateFormVisibility = () => {
-        setCreateFormVisible(!isCreateFormVisible);
-        // setTempState(selectedProfiles);
-    };
-
-    //CreateMember Modal
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
-
-    //recordPayment
-    const [sideOpen, setSideOpen] = React.useState(false);
-    const handleSideOpen = () => setSideOpen(true);
-    const handleSideClose = () => setSideOpen(false);
-
-    useEffect(() => {
-        if (loggedInUser) {
-            setName(loggedInUser.name)
-        }
-    }, [loggedInUser]);
-
-    // console.log(name)
-
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    // const month1 = today.getUTCMonth()
-
-    const year = today.getFullYear();
-    const date = today.getDate();
-    const currentDate = date + "-" + month + "-" + year;
-
-    const { onDownload } = useDownloadExcel({
-        currentTableRef: tableRef.current,
-        filename: `PendingPayment_${currentDate}`,
-        sheet: 'Users'
-    })
-
-
-    const baseURL = process.env.REACT_APP_BASE_URL
-    // const baseURL = "https://anyonyam.onrender.com"
-    // const baseURL = "http://localhost:8800"
-
-
-    useEffect(() => {
-        const fetchPaidSubscription = async () => {
-            try {
-                const response = await fetch(`${baseURL}/paidSubscription`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    credentials: 'include', // Ensures cookies are sent with the request
-                });
-    
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-    
-                const data = await response.json();
-                console.log('Data length of UNPAID MEMBERS:', data.paidSubscriptions);
-                setNotPaid(data.paidSubscriptions.length);
-                setUnpaidProfile(data.paidSubscriptions);
-                console.log('Data length TOTAL MEMBERS:', data.totalMembers.length);
-                setTotalMembers(data.totalMembers.length);
-                setPendingAmount(data.totalPending);
-    
-            } catch (err) {
-                window.alert("Server is facing some issues, Please Wait");
-                console.error(err);
-            }
-        };
-    
-        fetchPaidSubscription();
-    }, []);
-    
-
-    useEffect(() => {
-
-        let greaterThan2000Count = 0;
-        let between1000And2000Count = 0;
-        let lessThan1000Count = 0;
-
-        if (Array.isArray(unpaidProfile)) {
-            unpaidProfile.forEach(profile => {
-                const subscription = profile.Subscription;
-
-                if (subscription >= 2000) {
-                    greaterThan2000Count++;
-                } else if (subscription >= 1000) {
-                    between1000And2000Count++;
-                } else {
-                    lessThan1000Count++;
-                }
-
-            });
-        } else {
-            console.error("Data is not an array:", unpaidProfile);
-        }
-
-        // Set the subscription data state
-        setSubscriptionData({
-            greaterThan2000: greaterThan2000Count,
-            between1000And2000: between1000And2000Count,
-            lessThan1000: lessThan1000Count
-        });
-    }, [unpaidProfile])
-
-
-    const handleCreateInputChange = (e) => {
-        const { name, value } = e.target;
-        console.log({ name, value })
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    useEffect(() => {
-        setTimeout(() => setLoading(false), 2000)
-    }, [])
-
-    // console.log(PieData.datasets[0].data);
-
-    if (loading) {
-        return (
-            <div className="App-loading">
-                <div className="overlay"></div>
-                <div className="loading-content">
-                    <ReactLoading type="bars" color="black" height={40} width={30} />
-                </div>
-            </div>
-        );
+  const fetchPaidSubscription = useCallback(async () => {
+    try {
+      const { data } = await api.get("/paidSubscription");
+      setNotPaidCount(data.paidSubscriptions.length);
+      setUnpaidProfile(data.paidSubscriptions);
+      setTotalMembers(data.totalMembers.length);
+      setPendingAmount(data.totalPending || 0);
+    } catch (err) {
+      showToast("Couldn't load the dashboard. Please refresh.", "error");
+    } finally {
+      setLoading(false);
     }
+  }, [showToast]);
 
-    const onSaveChanges = async () => {
+  useEffect(() => {
+    fetchPaidSubscription();
+  }, [fetchPaidSubscription]);
 
-        const url = `${baseURL}/recordPayment?amount=${amount}&UNIQUEID=` + `${selectedMember.UNIQUEID}`;
+  const subscriptionBuckets = useMemo(() => {
+    let over2000 = 0;
+    let between1000And2000 = 0;
+    let under1000 = 0;
 
-        try {
-            const response = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                credentials: 'include'
-            });
+    unpaidProfile.forEach((profile) => {
+      const subscription = Number(profile.Subscription) || 0;
+      if (subscription >= 2000) over2000 += 1;
+      else if (subscription >= 1000) between1000And2000 += 1;
+      else under1000 += 1;
+    });
 
-            const data = response.json();
+    return [
+      { id: 0, value: over2000, label: "₹2000+", color: "var(--color-error)" },
+      { id: 1, value: between1000And2000, label: "₹1000-1999", color: "var(--color-warning)" },
+      { id: 2, value: under1000, label: "Under ₹1000", color: "var(--color-accent)" },
+    ];
+  }, [unpaidProfile]);
 
-            console.log('API response:', data);
+  const handleCreateInputChange = (e) => {
+    const { name: field, value } = e.target;
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
-            setFormVisibility(false);
-            window.location.reload();
-            setAmount('')
-
-            if (response.status === 200) {
-                window.alert('Payment Recorded Successfully!');
-            } else {
-                window.alert('Failed to Recorded Payment.');
-            }
-
-            if (response.status >= 500) {
-                window.alert("The Server is facing some issues. Please try again later")
-            }
-        } catch (error) {
-            setAmount('');
-            console.error('API error:', error);
-        }
-
-    };
-
-    const exportToExcel = (jsonData, fileName) => {
-        // Convert JSON to worksheet
-        const ws = XLSXUtils.json_to_sheet(jsonData);
-
-        // Create workbook
-        const wb = XLSXUtils.book_new();
-        XLSXUtils.book_append_sheet(wb, ws, 'Sheet1');
-
-        // Generate Excel file
-        const excelBuffer = writeXLSX(wb, { bookType: 'xlsx', type: 'array' });
-
-        // Convert buffer to blob
-        const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-
-        // Trigger download
-        saveAs(blob, fileName + '.xlsx');
-    };
-
-    const handleExportButtonClick = async () => {
-
-        try {
-            const response = await axios.get(`${baseURL}/allmembers`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                withCredentials: true,
-            });
-
-            console.log('API response:', response.data);
-            // toggleCreateFormVisibility();
-            const jsonData = response.data;
-            exportToExcel(jsonData, 'exported_data');
-            if (response.status === 200) {
-                window.alert('Profile ');
-                window.location.reload();
-            } else {
-                window.alert('Failed to Create profile.');
-            }
-        } catch (error) {
-            console.error('API error:', error);
-        }
-
-
-    };
-
-    const handleRowClick = (member, UNIQUEID, Name) => {
-        // Set selected member and toggle form visibility
-        setSelectedMember({
-            member: `${member}`,
-            UNIQUEID: UNIQUEID,
-            Name: `${Name}`
-        });
-        // setFormVisibility(true);
-        handleSideOpen();
-    };
-
-    const onCreateNew = async () => {
-        try {
-            const response = await axios.post(`${baseURL}/newmember`, formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                withCredentials: true,
-            });
-
-            // console.log('API response:', response.data);
-            toggleCreateFormVisibility();
-
-            if (response.status === 200) {
-                window.alert('Profile Created!');
-                window.location.reload();
-            } else {
-                window.alert('Failed to Create profile.');
-            }
-        } catch (error) {
-            console.error('API error:', error);
-        }
-    };
-
-
+  if (loading) {
     return (
-        <div className="admin">
-            <div className="headerDiv">
-                <div className="leftHeader">
-                    <span>ADMIN PANEL</span>
-                </div>
-                <div className="rightHeader">
-                    <div className="divButton">
-                        <button onClick={handleOpen}>CREATE USER</button>
-                        <button onClick={handleExportButtonClick}>Export data</button>
-                    </div>
-                </div>
-            </div>
-            <div className="bodyDiv">
-                <div className="welcome">
-                    {/* <h1>Welcome back, {name}</h1> */}
-                    <div className="metrics">
-                        <div className="card">
-                            <h3>Unpaid Subscription</h3>
-                            <p>{notpaid}</p>
-                            <span>NOT PAID</span>
-                        </div>
-                        <div className="card">
-                            <h3>Total Number of Members</h3>
-                            <p>{totalMembers}</p>
-                            <span>MEMBERS</span>
-                        </div>
-                        <div className="card">
-                            <h3>Total Pending Amount</h3>
-                            <p>&#x20B9; {pendingAmount.toLocaleString('en-IN')}</p>
-                            <span>DUE</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="revenue">
-                    <div className="headingRevenue">
-                        <div className="titleRevenue">
-                            <h2>PENDING SUBSCRIPTION</h2>
-                        </div>
-                        <div className="divButton">
-                            <button onClick={onDownload}>EXPORT EXCEL</button>
-                        </div>
-                    </div>
-                    <div className="graph">
-                        <table className="unpaidTable" ref={tableRef}>
-                            <thead>
-                                <tr>
-                                    <th>Member Number</th>
-                                    <th>Name</th>
-                                    <th>Contact</th>
-                                    <th>Pending Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {unpaidProfile.map(index => (
-                                    <tr key={index.MemberNo} onClick={() => handleRowClick(index.MemberNo, index.UNIQUEID, index.Name)}>
-                                        <td>{index.MemberNo}</td>
-                                        <td>{index.Name}</td>
-                                        <td>{index.Mobile}</td>
-                                        <td>{index.Subscription}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box className="modal-box">
-                        <h3>Create New Member</h3>
-                        <form onSubmit={async (e) => {
-                            e.preventDefault();
-                            await onCreateNew();
-                        }}>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td><label>Name</label></td>
-                                        <td><input type="text" name="Name" value={formData.Name} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Illam</label></td>
-                                        <td><input type="text" name="Illam" value={formData.Illam} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Phone</label></td>
-                                        <td><input type="text" name="Mobile" value={formData.Mobile} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Area</label></td>
-                                        <td><input type="text" name="Area" value={formData.Area} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Date of Birth</label></td>
-                                        <td><input type="date" name="DOB" value={formData.DOB} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Relationship with Member</label></td>
-                                        <td><input type="text" name="Relationship" value="MEMBER" readOnly /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Pending Payment</label></td>
-                                        <td><input type="text" name="Subscription" value={formData.Subscription} onChange={handleCreateInputChange} /></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div className="divButton">
-                                <button type="submit">ADD MEMBER</button>
-                            </div>
-                        </form>
-                    </Box>
-                </Modal>
-
-                <Modal
-                    open={sideOpen}
-                    onClose={handleSideClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box className="modal-box">
-                        <form onSubmit={async (e) => {
-                            e.preventDefault();
-                            await onSaveChanges();
-                        }}>
-                            <h2>Record a Payment</h2>
-
-                            <label htmlFor="">Member Name</label>
-                            <input type="text" value={selectedMember.Name} readOnly />
-                            <label htmlFor="">Member Number</label>
-                            <input type="text" value={selectedMember.member} readOnly />
-                            <label>Amount:</label>
-                            <input type="text" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-
-                        </form>
-                        <div className="divButton">
-                            <button onClick={onSaveChanges} >Submit</button>
-                            <button className="close-btn" onClick={handleSideClose}>Close</button>
-                        </div>
-
-                    </Box>
-                </Modal>
-            </div>
+      <div className="App-loading">
+        <div className="overlay"></div>
+        <div className="loading-content">
+          <ReactLoading type="bars" color="#9c424d" height={40} width={30} />
         </div>
+      </div>
     );
+  }
+
+  const onSaveChanges = async () => {
+    if (!selectedMember || !amount) return;
+    try {
+      await api.put("/recordPayment", null, {
+        params: { amount, UNIQUEID: selectedMember.UNIQUEID },
+      });
+      showToast("Payment recorded successfully.", "success");
+      setSideOpen(false);
+      setAmount('');
+      setSelectedMember(null);
+      await fetchPaidSubscription();
+    } catch (err) {
+      showToast(err.response?.data?.error || "Failed to record payment.", "error");
+    }
+  };
+
+  const exportToExcel = async (jsonData, fileName) => {
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Sheet1');
+    if (jsonData.length > 0) {
+      sheet.columns = Object.keys(jsonData[0]).map((key) => ({ header: key, key }));
+      sheet.addRows(jsonData);
+    }
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    saveAs(blob, `${fileName}.xlsx`);
+  };
+
+  const handleExportButtonClick = async () => {
+    try {
+      const { data } = await api.get("/allmembers");
+      await exportToExcel(data, 'exported_data');
+    } catch (err) {
+      showToast("Failed to export member data.", "error");
+    }
+  };
+
+  const handleRowClick = (member) => {
+    setSelectedMember(member);
+    handleSideOpen();
+  };
+
+  const onCreateNew = async () => {
+    try {
+      await api.post("/newmember", formData);
+      showToast("Member added successfully!", "success");
+      handleClose();
+      setFormData(EMPTY_CREATE_FORM);
+      await fetchPaidSubscription();
+    } catch (err) {
+      showToast(err.response?.data?.error || "Failed to add member.", "error");
+    }
+  };
+
+  return (
+    <div className="admin">
+      <div className="headerDiv">
+        <div className="leftHeader">
+          <span>ADMIN PANEL{name ? ` — ${name}` : ""}</span>
+        </div>
+        <div className="rightHeader">
+          <div className="divButton">
+            <button onClick={handleOpen}>CREATE USER</button>
+            <button onClick={handleExportButtonClick}>Export data</button>
+          </div>
+        </div>
+      </div>
+      <div className="bodyDiv">
+        <div className="welcome">
+          <div className="metrics">
+            <div className="card">
+              <h3>Unpaid Subscription</h3>
+              <p>{notPaidCount}</p>
+              <span>NOT PAID</span>
+            </div>
+            <div className="card">
+              <h3>Total Number of Members</h3>
+              <p>{totalMembers}</p>
+              <span>MEMBERS</span>
+            </div>
+            <div className="card">
+              <h3>Total Pending Amount</h3>
+              <p>&#x20B9; {pendingAmount.toLocaleString('en-IN')}</p>
+              <span>DUE</span>
+            </div>
+          </div>
+        </div>
+
+        {notPaidCount > 0 && (
+          <div className="chartCard">
+            <h2>Pending Subscription Breakdown</h2>
+            <PieChart
+              series={[{ data: subscriptionBuckets, innerRadius: 40, paddingAngle: 2, cornerRadius: 4 }]}
+              height={220}
+            />
+          </div>
+        )}
+
+        <div className="revenue">
+          <div className="headingRevenue">
+            <div className="titleRevenue">
+              <h2>PENDING SUBSCRIPTION</h2>
+            </div>
+            <div className="divButton">
+              <button onClick={onDownload}>EXPORT EXCEL</button>
+            </div>
+          </div>
+          <div className="graph">
+            <table className="unpaidTable" ref={tableRef}>
+              <thead>
+                <tr>
+                  <th>Member Number</th>
+                  <th>Name</th>
+                  <th>Contact</th>
+                  <th>Pending Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {unpaidProfile.map((member) => (
+                  <tr key={member.UNIQUEID} onClick={() => handleRowClick(member)}>
+                    <td>{member.MemberNo}</td>
+                    <td>{member.Name}</td>
+                    <td>{member.Mobile}</td>
+                    <td>{member.Subscription}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <Modal open={open} onClose={handleClose} aria-labelledby="create-member-title">
+          <Box className="modal-box">
+            <h3 id="create-member-title">Create New Member</h3>
+            <form onSubmit={async (e) => { e.preventDefault(); await onCreateNew(); }}>
+              <table>
+                <tbody>
+                  <tr>
+                    <td><label>Name</label></td>
+                    <td><input type="text" name="Name" value={formData.Name} onChange={handleCreateInputChange} required /></td>
+                  </tr>
+                  <tr>
+                    <td><label>Illam</label></td>
+                    <td><input type="text" name="Illam" value={formData.Illam} onChange={handleCreateInputChange} /></td>
+                  </tr>
+                  <tr>
+                    <td><label>Phone</label></td>
+                    <td><input type="tel" name="Mobile" value={formData.Mobile} onChange={handleCreateInputChange} required pattern="\d{10}" title="10-digit phone number" /></td>
+                  </tr>
+                  <tr>
+                    <td><label>Area</label></td>
+                    <td><input type="text" name="Area" value={formData.Area} onChange={handleCreateInputChange} /></td>
+                  </tr>
+                  <tr>
+                    <td><label>Date of Birth</label></td>
+                    <td><input type="date" name="DOB" value={formData.DOB} onChange={handleCreateInputChange} required /></td>
+                  </tr>
+                  <tr>
+                    <td><label>Relationship with Member</label></td>
+                    <td><input type="text" name="Relationship" value="MEMBER" readOnly /></td>
+                  </tr>
+                  <tr>
+                    <td><label>Pending Payment</label></td>
+                    <td><input type="number" min="0" name="Subscription" value={formData.Subscription} onChange={handleCreateInputChange} /></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="divButton">
+                <button type="submit">ADD MEMBER</button>
+              </div>
+            </form>
+          </Box>
+        </Modal>
+
+        <Modal open={sideOpen} onClose={handleSideClose} aria-labelledby="record-payment-title">
+          <Box className="modal-box">
+            <form onSubmit={async (e) => { e.preventDefault(); await onSaveChanges(); }}>
+              <h2 id="record-payment-title">Record a Payment</h2>
+              <label htmlFor="payMemberName">Member Name</label>
+              <input id="payMemberName" type="text" value={selectedMember?.Name || ''} readOnly />
+              <label htmlFor="payMemberNo">Member Number</label>
+              <input id="payMemberNo" type="text" value={selectedMember?.MemberNo || ''} readOnly />
+              <label htmlFor="payAmount">Amount</label>
+              <input
+                id="payAmount"
+                type="number"
+                min="1"
+                name="amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                required
+              />
+              <div className="divButton">
+                <button type="submit">Submit</button>
+                <button type="button" className="close-btn" onClick={handleSideClose}>Close</button>
+              </div>
+            </form>
+          </Box>
+        </Modal>
+      </div>
+    </div>
+  );
 }

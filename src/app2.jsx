@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import './app2.scss';
 import Topbar from './components/Topbar/topbar.jsx';
@@ -15,20 +15,15 @@ import Profile from "./profilecomponent/Profile/profile2.jsx";
 import Search from "./profilecomponent/Search/search.jsx";
 import Logout from "./profilecomponent/Logout/logout.jsx";
 import Admin from "./profilecomponent/admin/admin.jsx";
+import RequireAuth from "./auth/RequireAuth.jsx";
+import RequireAdmin from "./auth/RequireAdmin.jsx";
+import { useAuth } from "./auth/AuthContext";
+import { useMenu } from "./hooks/useMenu";
 
 function App() {
-
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const memberNo = 103;
+  const { isAuthenticated, name } = useAuth();
+  const { menuOpen, setMenuOpen } = useMenu();
   const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("user-auth-token");
-    setLoggedIn(!!token);
-  }, []);
-
   const nav = useNavigate();
 
   const scrollToSection = () => {
@@ -37,38 +32,15 @@ function App() {
     }
   };
 
-  const handleLogin = () => {
-    setLoggedIn(true);
-    localStorage.setItem("loggedIn", "true");
-    // localStorage.setItem("memberNo", `${loggedInUser.memberNo}`);
-  };
-
-  const handleLogout = () => {
-    setLoggedIn(false);
-    setLoggedInUser(null);
-    localStorage.removeItem("user-auth-token"); // Remove token from localStorage
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("memberNo");
-    localStorage.removeItem("isAdmin");
-    nav("/");
-  };
-
-
-
-
-
   return (
     <div className="App">
       <div className="NavBar">
-        {!localStorage.getItem("loggedIn") && (<>
+        {isAuthenticated ? (
+          <TopbarProf menuOpen={menuOpen} setMenuOpen={setMenuOpen} name={name} />
+        ) : (
           <Topbar scrollToSection={scrollToSection} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-        </>)}
-
-        {localStorage.getItem("loggedIn") && (<>
-          <TopbarProf menuOpen={menuOpen} setMenuOpen={setMenuOpen} loggedInUser={loggedInUser} memberNo={memberNo} />
-        </>)}
+        )}
       </div>
-
 
       <div className="components">
         <Routes>
@@ -86,16 +58,38 @@ function App() {
           <Route path="/About/Today" element={<Today />} />
           <Route path="/Contact" element={<Contact />} />
           <Route path="/Gallery" element={<Gallery />} />
-          <Route path="/Login" element={<Login onLogin={handleLogin} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
+          <Route
+            path="/Login"
+            element={<Login onLoggedIn={(memberNo) => nav(`/Profile/${memberNo}`)} />}
+          />
 
-          <Route path={`/Admin`} element={<Admin loggedInUser={loggedInUser} />} />
-          <Route path={`/Profile/:memberNo`} element={<Profile />} />
-          <Route path="/Search" element={<Search />} />
-          <Route path="/Logout" element={<Logout onLogout={handleLogout} />} />
-
+          <Route
+            path="/Admin"
+            element={
+              <RequireAdmin>
+                <Admin />
+              </RequireAdmin>
+            }
+          />
+          <Route
+            path="/Profile/:memberNo"
+            element={
+              <RequireAuth>
+                <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/Search"
+            element={
+              <RequireAdmin>
+                <Search />
+              </RequireAdmin>
+            }
+          />
+          <Route path="/Logout" element={<Logout />} />
         </Routes>
       </div>
-
     </div>
   );
 }

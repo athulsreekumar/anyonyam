@@ -1,219 +1,161 @@
-
-import { useNavigate } from "react-router-dom"
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import OtpInput from 'react-otp-input';
 import ReactLoading from "react-loading";
+import Fade from "@mui/material/Fade";
+import { api } from "../../api/client";
+import { useAuth } from "../../auth/AuthContext";
+import { useToast } from "../../components/Toast/ToastContext";
 import './login.scss'
 
+const PHONE_LENGTH = 10;
+const OTP_LENGTH = 6;
 
+function errorMessage(err, fallback) {
+  return err.response?.data?.error || fallback;
+}
 
-const Login = ({ onLogin, loggedInUser, setLoggedInUser }) => {
+const Login = ({ onLoggedIn }) => {
+  const { login } = useAuth();
+  const { showToast } = useToast();
 
-    const baseURL = process.env.REACT_APP_BASE_URL
-    // const baseURL = "https://anyonyam.onrender.com"
-    // const baseURL = "http://localhost:8800"
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [requestingOtp, setRequestingOtp] = useState(false);
+  const [verifying, setVerifying] = useState(false);
 
+  const isValidPhone = /^\d{10}$/.test(phone);
 
-    const [loading, setLoading] = useState(true)
-    const [phone, setPhone] = useState("");
-    const [otp, setOtp] = useState("");
-    const [submitted, setSubmitted] = useState(false);
-    const [otpError, setOtpError] = useState(false);
-    const [phoneError, setPhoneError] = useState(false);
-
-
-
-    const history = useNavigate();
-
-
-
-    const handleSubmit = (e) => {
-        console.log("Hellooo")
-        e.preventDefault();
-        setLoading(true)
-        if (phone.trim() === '' || phone.length !== 10) {
-            window.alert("Please enter a valid 10-digit phone number");
-            return;
-        }
-
-        const dataToSubmit = { "phone": phone }
-
-        console.log(dataToSubmit)
-
-        fetch(`${baseURL}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Access-Control-Allow-Origin': '*'
-            },
-            credentials: 'include',
-            body: JSON.stringify(dataToSubmit),
-        })
-            // .then((res) => res.json())
-            .then((data) => {
-                // Handle the response from the backend if needed
-                console.log(data);
-
-
-                if (data.status === 404) {
-                    console.log(data.status);
-                    setPhoneError(true)
-                    setLoading(false)
-                }
-
-                if (data.status === 200) {
-                    setPhoneError(false)
-                    setSubmitted(true)
-                    setLoading(false)
-                }
-
-                if (data.status === 502) {
-                    window.alert("An unknown error Occured. Please try again after some time")
-                }
-
-                if (data.status === 521) {
-                    window.alert("An unknown error Occured. Please try again after some time")
-                    window.location.reload()
-                }
-
-
-            })
-            .catch((error) => {
-                // Handle error scenario
-                window.alert("Server is facing some issues, Please Wait")
-                console.error('Error:', error);
-                setLoading(false)
-            });
-    };
-    
-    const handleOtpChange = (event) => {
-        const { value } = event.target;
-        if (/^\d{0,4}$/.test(value)) {
-          setOtp(value);
-        }
-      };
-
-    const handleVerify = (e) => {
-        e.preventDefault();
-        setLoading(true)
-
-        const dataToSubmit = { "otp": otp, "phone": phone }
-
-
-        fetch(`${baseURL}/auth`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Access-Control-Allow-Origin': '*'
-            },
-            credentials: 'include',
-            body: JSON.stringify(dataToSubmit),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                // Handle the response from the backend if needed
-                console.log(data);
-
-                if (data.success) {
-                    localStorage.setItem("user-auth-token", data.token); // Store token in localStorage
-                    setLoggedInUser(data);
-                    onLogin();
-                    setOtpError(false);
-                    setLoading(false);
-                }
-
-                if (data.status !== 200) {
-                    setOtpError(true)
-                    // setSubmitted(true)
-                    setLoading(false)
-
-                }
-
-
-            })
-            .catch((error) => {
-                // Handle error scenarios
-                window.alert("Server is facing some issues, Please Wait")
-                console.error('Error:', error);
-                // setOtpError(true)
-                setLoading(false)
-
-            });
-
-
-
-    };
-
-    useEffect(() => {
-        if (loggedInUser) {
-            localStorage.setItem("memberNo", loggedInUser.memberNo);
-            history(`/Profile/${loggedInUser.memberNo}`);
-        }
-    }, [loggedInUser, history]);
-
-    useEffect(() => {
-        setTimeout(() => setLoading(false), 1000)
-    }, [])
-
-    if (loading) {
-        return (
-            <div className="App-loading">
-                <div className="overlay"></div>
-                <div className="loading-content">
-                    <ReactLoading type="bars" color="black" height={30} width={30} />
-                </div>
-            </div>
-        );
+  const handleRequestOtp = async (e) => {
+    e.preventDefault();
+    if (!isValidPhone) {
+      setPhoneError(`Please enter a valid ${PHONE_LENGTH}-digit phone number`);
+      return;
     }
+    setPhoneError("");
+    setRequestingOtp(true);
+    try {
+      await api.post("/login", { phone });
+      setSubmitted(true);
+    } catch (err) {
+      if (err.response?.status === 404) {
+        setPhoneError("Phone number does not exist. Please contact admin.");
+      } else if (err.response?.status === 429) {
+        showToast("Too many attempts. Please wait a few minutes and try again.", "warning");
+      } else {
+        showToast(errorMessage(err, "Something went wrong. Please try again."), "error");
+      }
+    } finally {
+      setRequestingOtp(false);
+    }
+  };
 
+  const handleOtpChange = (value) => {
+    if (/^\d{0,6}$/.test(value)) {
+      setOtp(value);
+      setOtpError("");
+    }
+  };
 
-    return (
-        <div className="login-main">
-            <div className="login-left">
-                <img src="assets/combinedLogo.png" alt="" />
-            </div>
-            <div className="login-right">
-                <div className="login-right-container">
-                    <div className="login-logo">
-                        <img src="assets/AnyonyamLogo.png" alt="" />
-                    </div>
-                    <div className="login-center">
-                        <h2>Hello!</h2>
-                        <p>Please enter your details</p>
-                        {!submitted ? (
-                            <form onSubmit={handleSubmit}>
-                                <input type="tel" placeholder="Enter your Phone number" value={phone} onChange={(event) => setPhone(event.target.value)} name="phone" />
-                                <div className="login-center-buttons">
-                                    <button type="button" onClick={handleSubmit}>Get OTP</button>
-                                    <p className="error-message" style={{ opacity: phoneError ? '100%' : '0%' }}>
-                                        Phone Number Does Not exist. Please contact admin
-                                    </p>
-                                </div>
-                            </form>
-                        ) : (
-                            <form onSubmit={handleVerify}>
-                                <input
-                                    type="text"
-                                    placeholder="Enter OTP"
-                                    value={otp}
-                                    onChange={handleOtpChange}
-                                    maxLength="4"
-                                    name="otp"
-                                />
-                                <div className="login-center-buttons">
-                                    <button type="button" onClick={handleVerify}>Sumbit OTP</button>
-                                    <p className="error-message" style={{ opacity: phoneError ? '100%' : '0%' }}>
-                                        Phone Number Does Not exist. Please contact admin
-                                    </p>
-                                </div>
-                            </form>
-                        )}
+  const handleVerify = async (e) => {
+    e.preventDefault();
+    if (otp.length !== OTP_LENGTH) {
+      setOtpError(`Enter the ${OTP_LENGTH}-digit code we sent you`);
+      return;
+    }
+    setVerifying(true);
+    try {
+      const { data } = await api.post("/auth", { phone, otp });
+      login({ token: data.token, role: data.role, memberNo: data.memberNo, name: data.name });
+      onLoggedIn?.(data.memberNo);
+    } catch (err) {
+      if (err.response?.status === 429) {
+        showToast("Too many attempts. Please wait a few minutes and try again.", "warning");
+      } else {
+        setOtpError(errorMessage(err, "That code didn't work. Please try again."));
+      }
+    } finally {
+      setVerifying(false);
+    }
+  };
 
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="login-main">
+      <div className="login-left">
+        <img src="/assets/combinedLogo.png" alt="" />
+      </div>
+      <div className="login-right">
+        <div className="login-right-container">
+          <div className="login-logo">
+            <img src="/assets/AnyonyamLogo.png" alt="" />
+          </div>
+          <div className="login-center">
+            <h2>Hello!</h2>
+            <p>{submitted ? "Enter the code we texted you" : "Please enter your details"}</p>
+
+            {!submitted ? (
+              <Fade in>
+                <form onSubmit={handleRequestOtp}>
+                  <input
+                    type="tel"
+                    inputMode="numeric"
+                    placeholder="Enter your phone number"
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value.replace(/\D/g, "").slice(0, PHONE_LENGTH))}
+                    name="phone"
+                    aria-invalid={Boolean(phoneError)}
+                    aria-describedby="phone-error"
+                  />
+                  <div className="login-center-buttons">
+                    <button type="submit" disabled={requestingOtp}>
+                      {requestingOtp ? <ReactLoading type="spin" color="#fff" height={20} width={20} /> : "Get OTP"}
+                    </button>
+                    <p id="phone-error" className="error-message" style={{ opacity: phoneError ? 1 : 0 }}>
+                      {phoneError || "placeholder"}
+                    </p>
+                  </div>
+                </form>
+              </Fade>
+            ) : (
+              <Fade in>
+                <form onSubmit={handleVerify}>
+                  <OtpInput
+                    value={otp}
+                    onChange={handleOtpChange}
+                    numInputs={OTP_LENGTH}
+                    renderSeparator={<span style={{ width: "8px" }} />}
+                    renderInput={(props) => <input {...props} className="otp-input" />}
+                    shouldAutoFocus
+                  />
+                  <div className="login-center-buttons">
+                    <button type="submit" disabled={verifying}>
+                      {verifying ? <ReactLoading type="spin" color="#fff" height={20} width={20} /> : "Submit OTP"}
+                    </button>
+                    <button
+                      type="button"
+                      className="link-button"
+                      onClick={() => {
+                        setSubmitted(false);
+                        setOtp("");
+                        setOtpError("");
+                      }}
+                    >
+                      Use a different number
+                    </button>
+                    <p className="error-message" style={{ opacity: otpError ? 1 : 0 }}>
+                      {otpError || "placeholder"}
+                    </p>
+                  </div>
+                </form>
+              </Fade>
+            )}
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Login;

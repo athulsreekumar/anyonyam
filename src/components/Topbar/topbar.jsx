@@ -1,23 +1,21 @@
 import React from "react";
 import "./topbar.scss";
 import { HashLink as Link1 } from "react-router-hash-link";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function Topbar({ scrollToSection, menuOpen, setMenuOpen }) {
-  const handleLinkClick = () => {
-    setMenuOpen(false);
-  };
+export default function Topbar({ menuOpen, setMenuOpen }) {
+  const handleLinkClick = () => setMenuOpen(false);
 
   return (
     <>
       <nav>
         <div className="title">
           <div className="icon">
-            <img src="assets/AnyonyamLogo.png" alt="" />
+            <img src="/assets/AnyonyamLogo.png" alt="" />
           </div>
           <div>
             <Link to="/" className="logo">
-              <img src="assets/logo.png" alt="img here" />
+              <img src="/assets/logo.png" alt="img here" />
             </Link>
           </div>
         </div>
@@ -28,27 +26,27 @@ export default function Topbar({ scrollToSection, menuOpen, setMenuOpen }) {
         </div>
         <ul className={menuOpen ? "open" : ""}>
           <li>
-            <Link to="/" style={{ textDecoration: 'none', color: 'white' }} onClick={handleLinkClick}>
+            <Link to="/" onClick={handleLinkClick}>
               <span>Home</span>
             </Link>
           </li>
           <li>
-            <Link to="/About/History" style={{ textDecoration: 'none', color: 'white' }} onClick={handleLinkClick}>
+            <Link to="/About/History" onClick={handleLinkClick}>
               <span>About Us</span>
             </Link>
           </li>
           <li>
-            <Link to="/Gallery" style={{ textDecoration: 'none', color: 'white' }} onClick={handleLinkClick}>
+            <Link to="/Gallery" onClick={handleLinkClick}>
               <span>Gallery</span>
             </Link>
           </li>
           <li>
-            <Link1 smooth to="/#contact" style={{ textDecoration: 'none', color: 'white' }} onClick={handleLinkClick}>
+            <Link1 smooth to="/#contact" onClick={handleLinkClick}>
               <span>Contact Us</span>
             </Link1>
           </li>
           <li>
-            <Link to="/login" style={{ textDecoration: 'none', color: 'white' }} onClick={handleLinkClick}>
+            <Link to="/Login" className="login-link" onClick={handleLinkClick}>
               <span>Login</span>
             </Link>
           </li>

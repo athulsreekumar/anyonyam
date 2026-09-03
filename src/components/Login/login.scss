@@ -166,20 +166,47 @@ form button[type='button'] {
   background-color: white;
 }
 
-.login-center-buttons button:nth-child(2){
-  background-color: #F0F0F0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 10px;
+.login-center-buttons button[type="submit"]:disabled {
+  opacity: 0.7;
+  cursor: progress;
 }
 
-.login-center-buttons button:nth-child(2) img{
-  width: 30px;
+.login-center-buttons .link-button {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: var(--space-2);
 }
 
-.login-center-buttons button:nth-child(2):hover{
-  background-color: #c4c4c457;
+.login-center-buttons .link-button:hover {
+  color: var(--color-primary-40);
+}
+
+.login-center-buttons .error-message {
+  transition: opacity var(--duration-base) var(--ease-out);
+  color: var(--color-error);
+  min-height: 1.2em;
+}
+
+.otp-input {
+  width: 3rem !important;
+  height: 3.5rem;
+  font-size: var(--text-2xl);
+  text-align: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  margin: 0 4px;
+  transition: border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+
+.otp-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
 }
 
 .login-bottom-p{

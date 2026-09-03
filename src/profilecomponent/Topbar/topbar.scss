@@ -1,5 +1,5 @@
 .active {
-  background-color: #9c424d;
+  background-color: var(--color-primary-80);
 }
 
 .bar {
@@ -13,21 +13,20 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #9c424d;
-  filter: drop-shadow(5px 5px 8px rgb(57, 57, 57));
+  background-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
   color: white;
   position: fixed;
   height: 75px;
   width: 100%;
   top: 0;
   z-index: 3;
-  transition: all 0.7s ease;
-  // overflow: hidden;
+  transition: background-color var(--duration-base) var(--ease-out);
 }
 
 nav .title {
-  font-size: 1.5rem;
-  margin: 1rem;
+  font-size: var(--text-xl);
+  margin: var(--space-4);
   font-weight: bold;
   text-decoration: none;
   color: white;
@@ -35,49 +34,53 @@ nav .title {
   display: flex;
 }
 
-nav .title .icon {
-  img {
-    height: 40px;
-  }
+nav .title .icon img {
+  height: 40px;
 }
 
 nav .title .logo {
-  img {
-    height: 40px;
-    width: 160px;
-    filter: grayscale(1) invert(1);
-  }
-
   text-decoration: none;
   color: inherit;
 }
 
-nav ul {
-  display: flex;
-  padding: 0; /* Remove default padding */
-  margin: 0;  /* Remove default margin */
+nav .title .logo img {
+  height: 40px;
+  width: 160px;
+  filter: grayscale(1) invert(1);
 }
 
-nav ul.open {
-  padding: 0; /* Ensure no padding in open state */
-  margin: 0;  /* Ensure no margin in open state */
+nav .greeting {
+  color: white;
+  font-weight: 500;
+  font-size: var(--text-sm);
+  opacity: 0.9;
+}
+
+nav ul {
+  display: flex;
+  padding: 0;
+  margin: 0;
 }
 
 nav ul li {
   list-style: none;
 }
 
+// Links live on the brand-maroon nav, so they need to render in white -
+// previously fixed with a one-off inline style on every <Link>, which is
+// why it was easy to forget and end up with unreadable maroon-on-maroon.
 nav ul li a {
   display: block;
   text-decoration: none;
-  color: #9c424d;
-  padding: 0.5rem;
-  margin: 0 0.5rem;
-  border-radius: 0.5rem;
+  color: white;
+  padding: var(--space-2) var(--space-3);
+  margin: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--duration-fast) var(--ease-out);
 }
 
-nav ul li a:not(.active):hover {
-  background-color: #9c424d;
+nav ul li a:hover {
+  background-color: var(--color-primary-80);
 }
 
 nav .menu {
@@ -89,6 +92,7 @@ nav .menu {
   justify-content: space-between;
   width: 2.25rem;
   height: 2rem;
+  cursor: pointer;
 }
 
 nav .menu span {
@@ -101,38 +105,32 @@ nav .menu span {
 @media (max-width: 708px) {
   nav .menu {
     display: flex;
-    background-color: #9c424d;
+    background-color: var(--color-primary);
   }
 
-  nav .title .icon {
-    img {
-      height: 20px;
-    }
+  nav .greeting {
+    display: none;
   }
 
-  nav .title .logo {
-    img {
-      height: 20px;
-      width: 80px;
-      filter: grayscale(1) invert(1);
-    }
+  nav .title .icon img {
+    height: 20px;
+  }
 
-    text-decoration: none;
-    color: inherit;
+  nav .title .logo img {
+    height: 20px;
+    width: 80px;
+    filter: grayscale(1) invert(1);
   }
 
   nav {
     flex-direction: column;
     align-items: flex-start;
-    
   }
 
   nav ul {
     display: none;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 0.25rem; 
-     /* added now*/
     position: absolute;
     top: 75px;
     z-index: 2;
@@ -140,11 +138,8 @@ nav .menu span {
 
   nav ul.open {
     display: flex;
-    right: 0;
-    padding: 0; /* Ensure no padding in open state */
-    margin: 0;  /* Ensure no margin in open state */
-    background-color: #9c424d;
-    transition: 2s ease;
+    background-color: var(--color-primary);
+    animation: slide-down var(--duration-base) var(--ease-out);
   }
 
   nav ul li {
@@ -152,25 +147,29 @@ nav .menu span {
     text-align: center;
   }
 
-  nav ul li a {
-    margin: 0.2rem 0.5rem;
-  }
-
   .overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background-color: rgba(0, 0, 0, 0.7);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 2; /* Ensure it covers other content but is below the menu */
+    transition: opacity var(--duration-base) ease, visibility var(--duration-base) ease;
+    z-index: 2;
   }
-  
+
   .overlay.open {
     opacity: 1;
     visibility: visible;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
