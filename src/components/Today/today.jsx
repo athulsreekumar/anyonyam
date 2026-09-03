@@ -1,8 +1,11 @@
 import React from "react"
 import "./today.scss"
 import { Link } from "react-router-dom"
+import { useScrollReveal } from "../../hooks/useScrollReveal"
 
 export default function Today() {
+  const [contentRef, contentVisible] = useScrollReveal();
+
   return (
     <div className="today" id="today">
         <div className="heading" id="heading">
@@ -10,17 +13,18 @@ export default function Today() {
         </div>
         <div className="textheading" id="textheading">
             <div className="historytext" id="historytext">
-                {/* <p onClick={()=>setaboutState(aboutState="history")}>History</p> */}
                 <Link to="/About/History" style={{ textDecoration: 'none', color: 'white' }}> <p>History</p></Link>
             </div>
             <div className="todaytext" id="todaytext">
-                {/* <p onClick={()=>setaboutState(aboutState="today")}>Anyonyam Today</p> */}
                 <Link to="/About/Today" style={{ textDecoration: 'none', color: 'white' }}><p>Anyonyam Today</p></Link>
             </div>
         </div>
 
-
-        <div className="todaycontent" id="todaycontent">
+        <div
+          className={`todaycontent reveal ${contentVisible ? "reveal-visible" : ""}`}
+          id="todaycontent"
+          ref={contentRef}
+        >
 
             <p> 
                 After 25 years, the creativity of our members has undoubtedly propelled us forward through interactions, collaborations, and mentorships from previous leaders. We have established various committees, including the four-member committee, women's committee, youth committee, Salsanga Committee, Marriage Bureau, and Health Care Committee, among others, which have become integral parts of our organization.

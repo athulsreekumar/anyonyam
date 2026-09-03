@@ -17,10 +17,21 @@
         position: relative;
         top: 70px;
         scroll-behavior: smooth;
-        // scroll-snap-type: y mandatory;
         scrollbar-width: none;  //for firefox
+        animation: page-fade-in var(--duration-slow, 400ms) var(--ease-out, ease-out);
         &::-webkit-scrollbar{
             display: none;
+        }
+      }
+
+      @keyframes page-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .components {
+          animation: none;
         }
       }
 

@@ -1,15 +1,17 @@
 .gallery{
 
-    background-color: #9c424d;
+    background-color: var(--color-primary);
     color: white;
 
     .heading{
-        padding-top: 5%;
+        padding-top: 24px;
         margin-left: 10%;
         position: fixed;
+        top: 75px; // sits directly under the fixed navbar (see topbar.scss)
         width: 100%;
-        background-color: #9c424d;
+        background-color: var(--color-primary);
         display: block;
+        z-index: 1;
         p{
             text-align: justify;
             font-family: 'Prompt', sans-serif;
@@ -28,17 +30,18 @@
     }
 
     .sections{
-        margin-top: 10%;
+        // Below the fixed heading (75px navbar + ~85px heading block).
+        padding-top: 180px;
         display: flex;
         flex-direction: column;
 
         .left{
             margin-left: 10%;
             margin-right: 5%;
-            margin-top: 2%;
             width: 20%;
             float: left;
             position: fixed;
+            top: 180px;
             display: flex;
             flex-direction: column;
             p{
@@ -114,28 +117,28 @@
         @media (max-width: 768px) {
             flex-direction: column;
             align-items: center;
-            background-color: #9c424d;
+            background-color: var(--color-primary);
             .left {
-                background-color: #9c424d;
+                position: static; // was still `fixed` here, overlapping .right's content
+                background-color: var(--color-primary);
                 width: 100%;
                 max-width: 100%;
                 margin-left: 2%;
                 margin-bottom: 2%;
                 padding-bottom: 2%;
-                flex-direction: row; 
+                flex-direction: row;
                 flex-wrap: wrap;
                 align-items: center;
                 justify-content: center;
                 p{
                     margin: 10px;
                     font-size: 3vw;
-                }              
+                }
             }
 
             .right {
                 position: unset;
                 width: 100%;
-                margin-top: 25%;
                 overflow: hidden;
 
                 .scroll{

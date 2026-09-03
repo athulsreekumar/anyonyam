@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom"
 import React from "react"
 import "./history.scss"
+import { useScrollReveal } from "../../hooks/useScrollReveal"
 
 export default function History() {
+  const [contentRef, contentVisible] = useScrollReveal();
+
   return (
     <div className="history" id="history">
        <div className="heading" id="heading">
@@ -10,18 +13,18 @@ export default function History() {
        </div>
        <div className="textheading" id="textheading">
             <div className="historytext" id="historytext">
-                {/* <p onClick={()=>setaboutState(aboutState="history")}>History</p> */}
-                {/* <p>History</p> */}
                 <Link to="/About/History" style={{ textDecoration: 'none', color: 'white' }}> <p>History</p></Link>
             </div>
             <div className="todaytext" id="todaytext">
-                {/* <p onClick={()=>setaboutState(aboutState="today")}>Anyonyam Today</p> */}
                 <Link to="/About/Today" style={{ textDecoration: 'none', color: 'white' }}><p>Anyonyam Today</p></Link>
-
             </div>
         </div>
 
-        <div className="historyContent" id="historyContent">
+        <div
+          className={`historyContent reveal ${contentVisible ? "reveal-visible" : ""}`}
+          id="historyContent"
+          ref={contentRef}
+        >
 
             <p>
             Anyonyam is an organization formed in 1998 to develop and encourage friendship and cooperation between the Namboodiri families in Tripunithura. Later it also took to its fold the responsibility of preserving our rich Vedic and cultural heritage by practicing and sharing the knowledge.  It has resulted in a network of more than 400 families as of now, on this occasion of Silver Jubilee Year in 2023. 

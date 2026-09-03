@@ -78,3 +78,34 @@
   --duration-base: 250ms;
   --duration-slow: 400ms;
 }
+
+// Pair with the useScrollReveal hook: attach .reveal to an element via its
+// ref, add "-visible" once it's scrolled into view.
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+// Route-level fade, applied to the .components wrapper in app2.scss.
+.page-fade-enter {
+  opacity: 0;
+}
+
+.page-fade-enter-active {
+  opacity: 1;
+  transition: opacity var(--duration-base) var(--ease-out);
+}

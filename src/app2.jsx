@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import React from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import './app2.scss';
 import Topbar from './components/Topbar/topbar.jsx';
 import Intro from './components/Intro/intro';
@@ -23,14 +23,8 @@ import { useMenu } from "./hooks/useMenu";
 function App() {
   const { isAuthenticated, name } = useAuth();
   const { menuOpen, setMenuOpen } = useMenu();
-  const sectionRef = useRef(null);
   const nav = useNavigate();
-
-  const scrollToSection = () => {
-    if (sectionRef.current) {
-      sectionRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const location = useLocation();
 
   return (
     <div className="App">
@@ -38,11 +32,11 @@ function App() {
         {isAuthenticated ? (
           <TopbarProf menuOpen={menuOpen} setMenuOpen={setMenuOpen} name={name} />
         ) : (
-          <Topbar scrollToSection={scrollToSection} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+          <Topbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
         )}
       </div>
 
-      <div className="components">
+      <div className="components" key={location.pathname}>
         <Routes>
           <Route path="/" element={
             <>
