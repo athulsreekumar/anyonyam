@@ -46,9 +46,23 @@
                 font-weight: 300;
                 font-size: 25px;
                 cursor: pointer;
+                transition: opacity var(--duration-fast) var(--ease-out);
+
+                &:hover {
+                    opacity: 0.8;
+                }
 
                 &.active{
                     font-weight: 500;
+                }
+
+                &.disabled {
+                    cursor: not-allowed;
+                    opacity: 0.5;
+
+                    &:hover {
+                        opacity: 0.5;
+                    }
                 }
             }
 
@@ -67,6 +81,13 @@
             .scroll{
 
                 overflow-y: auto;
+
+                .galleryError,
+                .galleryEmpty {
+                    color: white;
+                    opacity: 0.8;
+                    font-size: var(--text-lg);
+                }
 
                 .imgContainer{
                 

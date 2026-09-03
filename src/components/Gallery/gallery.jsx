@@ -1,78 +1,56 @@
 import React, { useState, useEffect } from "react"
 import "./gallery.scss"
 
-export default function Gallery() {
-    const [state, setState] = useState("Varshikam");
+const CATEGORIES = [
+    { key: "Varshikam", label: "Varshikam" },
+    { key: "PathanaShipiram", label: "Patana Shibiram" },
+    { key: "Football", label: "Football Mela" },
+];
 
-    const [imagesFootball, setImagesFootball] = useState([]);
-    const [imagesVarshikam, setImagesVarshikam] = useState([]);
-    const [imagesPathanaShipiram, setImagesPathanaShipiram] = useState([]);
+export default function Gallery() {
+    const [active, setActive] = useState("Varshikam");
+    const [manifest, setManifest] = useState({});
+    const [error, setError] = useState(false);
 
     useEffect(() => {
-        // Dynamically import images from the "images" folder
-        const importImages = () => {
-            const imageContextFootball = require.context('../../../public/assets/Gallery/Football', false);
-            const imagePathsFootball = imageContextFootball.keys().map(imageContextFootball);
-            setImagesFootball(imagePathsFootball);
-
-            const imageContextPathanaShipiram = require.context('../../../public/assets/Gallery/PathanaShipiram', false);
-            const imagePathsPathanaShipiram = imageContextPathanaShipiram.keys().map(imageContextPathanaShipiram);
-            setImagesPathanaShipiram(imagePathsPathanaShipiram);
-
-            const imageContextVarshikam = require.context('../../../public/assets/Gallery/Varshikam', false);
-            const imagePathsVarshikam = imageContextVarshikam.keys().map(imageContextVarshikam);
-            setImagesVarshikam(imagePathsVarshikam);
-        };
-
-        importImages();
+        fetch('/assets/Gallery/manifest.json')
+            .then((res) => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
+            .then(setManifest)
+            .catch(() => setError(true));
     }, []);
 
-    return (
+    const images = manifest[active] || [];
 
+    return (
         <div className="gallery">
             <div className="heading">
                 <p>Gallery</p>
             </div>
             <div className="sections">
-
                 <div className="left">
-                    <p onClick={() => setState("Varshikam")} className={state === "Varshikam" ? "active" : ""}>Varshikam</p>
-                    <p onClick={() => setState("PathanaShipiram")} className={state === "PathanaShipiram" ? "active" : ""}>Patana Shibiram</p>
-                    <p>Cricket Mela</p>
-                    <p onClick={() => setState("Football")} className={state === "Football" ? "active" : ""}>Football Mela</p>
+                    {CATEGORIES.map(({ key, label }) => (
+                        <p
+                            key={key}
+                            onClick={() => setActive(key)}
+                            className={active === key ? "active" : ""}
+                        >
+                            {label}
+                        </p>
+                    ))}
+                    <p className="disabled">Cricket Mela</p>
                 </div>
                 <div className="right">
                     <div className="scroll">
-
-                    
-                        {state === "Varshikam" && (
-                            <div className="imgContainer">
-                                {
-                                    imagesVarshikam.map((image, index) => (
-                                        <img key={index} src={image} alt={`${index}`}/>
-                                        
-                                    ))
-                                }
-                            </div>
-                        )}
-                        {state === "PathanaShipiram" && (
-                            <div className="imgContainer">
-                                {
-                                    imagesPathanaShipiram.map((image, index) => (
-                                        <img key={index} src={image} alt={`${index}`} />
-                                    ))
-                                }
-                            </div>
-                        )}
-                        {state === "Football" && (
-                            <div className="imgContainer">
-                                {
-                                    imagesFootball.map((image, index) => (
-                                        <img key={index} src={image} alt={`${index}`} />
-                                    ))
-                                }
-                            </div>
-                        )}
+                        {error && <p className="galleryError">Couldn't load photos right now.</p>}
+                        {!error && images.length === 0 && <p className="galleryEmpty">Loading…</p>}
+                        <div className="imgContainer">
+                            {images.map((src) => (
+                                <img key={src} src={src} alt={`${active} event`} loading="lazy" />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
