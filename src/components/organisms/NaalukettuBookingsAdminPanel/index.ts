@@ -1,0 +1,1 @@
+export { NaalukettuBookingsAdminPanel } from './NaalukettuBookingsAdminPanel'
